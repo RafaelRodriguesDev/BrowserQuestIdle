@@ -13,6 +13,17 @@ var Properties = {
         weapon: 1
     },
     
+    ratv2: {
+        drops: {
+            flask: 40,
+            burger: 10,
+            firepotion: 5
+        },
+        hp: 30,
+        armor: 1,
+        weapon: 1
+    },
+    
     skeleton: {
         drops: {
             flask: 40,

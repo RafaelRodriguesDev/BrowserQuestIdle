@@ -47,6 +47,7 @@ Types = {
         SKELETON2: 12,
         BOSS: 13,
         DEATHKNIGHT: 14,
+        RATV2: 100,
         
         // Armors
         FIREFOX: 20,
@@ -108,6 +109,7 @@ var kinds = {
     warrior: [Types.Entities.WARRIOR, "player"],
     
     rat: [Types.Entities.RAT, "mob"],
+    ratv2: [Types.Entities.RATV2, "mob"],
     skeleton: [Types.Entities.SKELETON , "mob"],
     goblin: [Types.Entities.GOBLIN, "mob"],
     ogre: [Types.Entities.OGRE, "mob"],

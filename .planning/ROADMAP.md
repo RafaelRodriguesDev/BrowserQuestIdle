@@ -130,5 +130,17 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 
 **Status:** Complete - 2026-07-09
 
+### Phase 6: Integração de Novos Sprites e Inimigos
+
+**Goal:** Adicionar novos recursos visuais (sprites) e configurar novos tipos de monstros no jogo, como o Rato (Rat).
+**Requirements:** MOD-04
+
+**Success Criteria:**
+1. Novos spritesheets são carregados corretamente para diferentes fatores de escala (1 e 2).
+2. O arquivo JSON de configuração (ex: `rat.json`) reflete as dimensões corretas dos grids.
+3. O novo monstro é renderizado em tela sem falhas de `IndexSizeError`.
+
+**Status:** Not Started
+
 ---
 *Last updated: 2026-07-09 after Phase 5 execution*
