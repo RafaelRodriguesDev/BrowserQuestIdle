@@ -1,17 +1,21 @@
 BrowserQuest server documentation
 =================================
 
-The game server currently runs on nodejs v0.4.7 (but should run fine on the latest stable as well) and requires the latest versions of the following npm libraries:
+The local game server runs with Node.js and the dependencies declared in the root `package.json`.
 
-- underscore
-- log
-- bison
-- websocket
-- websocket-server
-- sanitizer
-- memcache (only if you want metrics)
+Current default runtime dependencies:
 
-All of them can be installed via `npm install -d` (this will install a local copy of all the dependencies in the node_modules directory)
+- `underscore`
+- `bison`
+- `ws`
+
+Install them from the repository root:
+
+```powershell
+npm install
+```
+
+The removed legacy packages `log`, `websocket`, `websocket-server`, `sanitizer`, and `memcache` are not required for default local play.
 
 
 Configuration
@@ -24,10 +28,15 @@ Copy `config_local.json-dist` to a new `config_local.json` file, then edit it. T
 Deployment
 ----------
 
-In order to deploy the server, simply copy the `server` and `shared` directories to the staging/production server.
+For local development, run from the repository root:
 
-Then run `node server/js/main.js` in order to start the server.
+```powershell
+node server/js/main.js
+```
 
+The server listens on the port configured in `server/config.json` or `server/config_local.json`.
+
+Production deployment has not been revalidated in this modernization baseline. Treat direct local server play and production dispatcher behavior as separate paths.
 
 Note: the `shared` directory is the only one in the project which is a server dependency.
 
@@ -40,3 +49,5 @@ The server has a status URL which can be used as a health check or simply as a w
 Send a GET request to: `http://[host]:[port]/status`
 
 It will return a JSON array containing the number of players in all instanced worlds on this game server.
+
+Default local config keeps `metrics_enabled` set to `false`. The old memcache metrics path is explicit opt-in work and is not required for local smoke checks.

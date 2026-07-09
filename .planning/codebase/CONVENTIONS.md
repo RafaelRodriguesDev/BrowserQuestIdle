@@ -48,7 +48,7 @@ focus: quality
 - Server connection protocol errors usually close the WebSocket with a log reason in `server/js/player.js`.
 - Client WebSocket errors add `error` class to `#container` and may call `disconnected_callback`.
 - Many browser asset load failures log through `client/js/lib/log.js`.
-- Some optional subsystems are not consistently optional: metrics were made optional in `server/js/main.js`, but `server/js/metrics.js` itself still requires `memcache`.
+- Optional metrics are explicit: default local config disables metrics, and `server/js/metrics.js` only loads `memcache` when metrics are enabled.
 
 ## Comments and Documentation
 
@@ -70,4 +70,4 @@ focus: quality
 - `server/js/map.js` uses `fs.access` instead of removed `path.exists`.
 - `client/js/audio.js` disables missing music loading.
 - `shared/js/gametypes.js` explicitly exposes `window.Types` for browser compatibility.
-
+- `scripts/smoke-*.js` provide the current local verification path for server, WebSocket, and browser gameplay.

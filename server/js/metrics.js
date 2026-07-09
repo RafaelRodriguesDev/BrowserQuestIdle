@@ -5,9 +5,17 @@ var cls = require("./lib/class"),
 module.exports = Metrics = Class.extend({
     init: function(config) {
         var self = this;
+        var Memcache;
         
         this.config = config;
-        this.client = new (require("memcache")).Client(config.memcached_port, config.memcached_host);
+
+        try {
+            Memcache = require("memcache");
+        } catch(e) {
+            throw new Error("Metrics require the optional 'memcache' package. Disable metrics_enabled for local play or add a maintained memcache client before enabling metrics.");
+        }
+
+        this.client = new Memcache.Client(config.memcached_port, config.memcached_host);
         this.client.connect();
         
         this.isReady = false;

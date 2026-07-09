@@ -5,15 +5,20 @@ focus: quality
 
 # Testing
 
-## Automated Tests
+## Automated Smoke Checks
 
-No automated test framework is configured.
-There are no Jest, Mocha, Vitest, Playwright, Cypress, or Node test scripts in `package.json`.
-There is no CI configuration in the current repository snapshot.
+`package.json` now provides smoke-level validation:
+
+- `npm run smoke:server`: starts `server/js/main.js`, waits for `/status`, and asserts a JSON array.
+- `npm run smoke:websocket`: starts the server, connects with `ws`, receives `go`, sends `HELLO`, and asserts `WELCOME`.
+- `npm run smoke:browser`: starts the server and static root server, opens `/client/` with Playwright, creates a character, verifies one player, and clicks the map.
+- `npm run smoke`: runs all smoke checks in sequence.
+
+There is still no CI configuration in the current repository snapshot.
 
 ## Current Verification Method
 
-The working verification path is manual/browser-driven:
+The manual verification path remains:
 
 1. Run `node server/js/main.js`.
 2. Serve the repository root on port `9090`.
@@ -22,7 +27,7 @@ The working verification path is manual/browser-driven:
 5. Confirm `GET http://localhost:8000/status` returns one player in a world.
 6. Click the map and verify character movement.
 
-This path was verified locally with Playwright through the Codex browser.
+This path is now covered by `npm run smoke:browser`.
 
 ## Current Smoke Evidence
 
@@ -47,13 +52,13 @@ For each dependency or vendored library update, verify:
 - `/status` reflects player count.
 - Closing the tab decrements server population.
 
-## Suggested Minimal Automated Tests
+## Next Test Candidates
 
-The first useful test layer should be smoke-level, not unit-heavy:
+The next useful layer should stay close to gameplay risk:
 
-- Node smoke: start `server/js/main.js`, request `/status`, assert JSON array length equals configured `nb_worlds`.
-- WebSocket smoke: connect with a `ws` client, receive `go`, send valid `HELLO`, receive `WELCOME`.
-- Browser smoke: Playwright opens `/client/`, enters name, waits for body class `started`, asserts `#playercount` includes `1 player`.
+- Browser reload smoke for saved localStorage character.
+- Movement protocol assertion that a `MOVE` message changes server-side player position.
+- Map exporter smoke for `tools/maps/exportmap.js`.
 
 ## Areas Hard to Test
 
@@ -67,4 +72,3 @@ The first useful test layer should be smoke-level, not unit-heavy:
 Dependency updates can break the app at module-load time before gameplay starts.
 The most likely breakages are RequireJS module resolution, implicit globals, and WebSocket protocol assumptions.
 Any update plan should add smoke tests before replacing vendored browser libraries.
-

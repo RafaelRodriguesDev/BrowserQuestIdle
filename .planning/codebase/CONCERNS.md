@@ -7,21 +7,11 @@ focus: concerns
 
 ## High Priority
 
-### `log` dependency mismatch
-
-`package.json` no longer declares `log`, but source still imports it:
-
-- `server/js/worldserver.js`.
-- `tools/maps/processmap.js`.
-
-The current local `node_modules` still contains `log` as extraneous from previous installs.
-A clean install or `npm prune` may remove it and break the server/tooling.
-
-### Metrics still depends on `memcache`
+### Metrics still depends on optional `memcache`
 
 `server/js/metrics.js` still calls `require("memcache")`.
-The local path avoids this because `metrics_enabled` is false and `server/js/main.js` catches missing metrics.
-If metrics are enabled, runtime will still fail unless this subsystem is removed or modernized.
+The local path avoids this because `metrics_enabled` is false.
+If metrics are enabled without adding a maintained memcache client, runtime now fails with an explicit error.
 
 ### Production build path likely does not match local verified path
 
@@ -57,9 +47,7 @@ If music is restored later, this should become a config flag or asset existence 
 
 ### Documentation drift
 
-`server/README.md` still lists removed/deprecated dependencies.
-`client/README.md` still recommends the production optimized build, but the verified path is static `/client/`.
-Docs should be updated after the dependency plan is finalized.
+Docs were updated for the verified local path, but future production/build modernization must keep them aligned.
 
 ## Low Priority
 
@@ -84,8 +72,5 @@ Python scripts and shell scripts may need Windows-specific validation.
 ## Recommended Update Order
 
 1. Stabilize clean install: declare or remove every runtime import (`log`, `memcache`).
-2. Add smoke tests for server, WebSocket handshake, and browser local play.
-3. Freeze or explicitly document vendored browser libraries before replacing them.
-4. Update docs to match the local verified run path.
-5. Only then attempt optional modernization of RequireJS/jQuery/Modernizr/build tooling.
-
+2. Freeze or explicitly document vendored browser libraries before replacing them.
+3. Only then attempt optional modernization of RequireJS/jQuery/Modernizr/build tooling.

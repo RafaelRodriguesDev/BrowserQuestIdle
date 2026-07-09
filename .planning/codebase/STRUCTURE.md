@@ -7,7 +7,7 @@ focus: arch
 
 ## Root
 
-- `README.md`: short original project description.
+- `README.md`: BrowserQuestIdle local run and smoke verification guide.
 - `LICENSE`: code and content licensing reference.
 - `package.json`: npm dependency declaration for server/runtime tooling.
 - `package-lock.json`: local lockfile generated during Node 24 compatibility work.
@@ -18,7 +18,7 @@ focus: arch
 
 - `server/config.json`: default runtime server config.
 - `server/config_local.json-dist`: local override template.
-- `server/README.md`: original server documentation; currently stale relative to patched dependencies.
+- `server/README.md`: current local server run, config, and status endpoint notes.
 - `server/js/main.js`: server process entrypoint.
 - `server/js/ws.js`: WebSocket server and status endpoint.
 - `server/js/worldserver.js`: world-level orchestration.
@@ -32,7 +32,7 @@ focus: arch
 ## Client
 
 - `client/index.html`: browser entrypoint.
-- `client/README.md`: original client build instructions; stale for local root-serving note.
+- `client/README.md`: current local root-serving note plus original production build caveat.
 - `client/config/config_build.json-dist`: production/client config template.
 - `client/config/config_build.json`: local ignored config generated for current local test.
 - `client/config/config_local.json-dist`: local client override template.
@@ -65,6 +65,7 @@ focus: arch
 - `tools/maps/export.py`: wrapper for client/server map export.
 - `tools/maps/tmx2json.py`: TMX conversion.
 - `tools/maps/processmap.js`: Node map processor.
+- `tools/maps/exportmap.js`: Node map export wrapper.
 - `tools/maps/tmx/map.tmx`: source map.
 
 ## Naming and Layout Conventions
@@ -78,9 +79,9 @@ focus: arch
 
 - `package.json` and `package-lock.json`: npm dependency decisions.
 - `server/js/ws.js`: `ws` compatibility.
-- `server/js/worldserver.js`: still imports `log`.
-- `tools/maps/processmap.js`: still imports `log`.
-- `server/js/metrics.js`: still imports `memcache`.
+- `scripts/smoke-*.js`: local smoke verification contract.
+- `server/js/worldserver.js`: now uses the runtime logger/fallback instead of npm `log`.
+- `tools/maps/processmap.js`, `tools/maps/exportmap.js`: now use local console logger fallbacks.
+- `server/js/metrics.js`: optional memcache load only when metrics are enabled.
 - `client/js/lib/require-jquery.js`: old RequireJS/jQuery bundle.
 - `client/js/build.js`: production build pragmas alter WebSocket connection mode.
-

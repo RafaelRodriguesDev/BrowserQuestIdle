@@ -13,12 +13,12 @@ The update surface is split between npm dependencies, vendored browser libraries
 
 ## Runtime
 
-- Server runtime: Node.js, currently verified locally with `node server/js/main.js`.
+- Server runtime: Node.js, currently verified locally with `node server/js/main.js` and `npm run smoke`.
 - Browser client runtime: static HTML, CSS, Canvas, WebSocket, RequireJS AMD modules.
 - Local static serving: project root must be served and opened at `/client/`, because the client loads `../shared/js/gametypes.js`.
 - Verified local ports:
   - Server WebSocket and status endpoint: `server/config.json`, port `8000`.
-  - Static client server: external tool, currently Python `http.server` on port `9090`.
+  - Static client server: smoke script built-in static server on port `9090`, or external tools such as Python `http.server`.
 
 ## Npm Dependencies
 
@@ -27,6 +27,10 @@ Current `package.json`:
 - `underscore`: `>0`, installed as `1.13.8`.
 - `bison`: `>0`, installed as `1.1.1`.
 - `ws`: `^8.18.0`, installed as `8.21.0`.
+
+Current dev dependencies:
+
+- `playwright`: browser smoke automation.
 
 Latest versions checked on 2026-07-09:
 
@@ -82,7 +86,6 @@ Updating them is not equivalent to `npm update`; it requires browser regression 
 
 - `ws`, `underscore`, and `bison` are already at latest npm versions.
 - The biggest dependency work is not version bumping; it is replacing or freezing vendored client libraries.
-- `log` is still referenced in `server/js/worldserver.js` and `tools/maps/processmap.js`, even though current `package.json` no longer declares it.
-- `memcache` is still referenced in `server/js/metrics.js`, but the local server keeps metrics disabled.
-- A clean install strategy must decide whether optional legacy tools remain supported or are explicitly retired.
-
+- Legacy `log` imports were removed from the default server and map tooling.
+- `memcache` is only loaded when metrics are enabled; default local play keeps metrics disabled.
+- A clean install strategy still needs to decide whether old metrics should be modernized or retired.

@@ -14,7 +14,7 @@ function main(config) {
         WorldServer = require("./worldserver"),
         _ = require('underscore'),
         server = new ws.MultiVersionWebsocketServer(config.port),
-        metrics = (config.metrics_enabled && Metrics) ? new Metrics(config) : null;
+        metrics = null,
         worlds = [],
         lastTotalPlayers = 0,
         checkPopulationInterval = setInterval(function() {
@@ -39,6 +39,13 @@ function main(config) {
         },
         error: function() { console.error.apply(console, arguments); }
     };
+
+    if(config.metrics_enabled) {
+        if(!Metrics) {
+            throw new Error("Metrics are enabled, but the metrics module could not be loaded.");
+        }
+        metrics = new Metrics(config);
+    }
     
     log.info("Starting BrowserQuest game server...");
     
