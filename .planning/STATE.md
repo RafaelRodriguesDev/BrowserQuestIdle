@@ -11,8 +11,8 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
 
 - Branch: `feature/refactor_1_0_browserQuestIdle`
 - Last codebase map: `.planning/codebase/`
-- Current workflow: `$gsd-execute-phase` Phase 3 complete
-- Status: Phase 3 implemented and ready for Phase 4 planning
+- Current workflow: `$gsd-plan-phase` Phase 4 complete
+- Status: Phase 4 planned and ready for execution
 
 ## Completed
 
@@ -63,11 +63,15 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
   - `npm run smoke`
   - `npm run smoke:browser:build`
   - `git status --short --ignored client-build build.txt client/config/config_build.json`
+- Phase 4 context/research/plans created:
+  - `04-01-websocket-endpoint-config-and-smoke`
+  - `04-02-proxy-runtime-health-and-ops`
+  - `04-03-docs-final-validation`
 
 ## Pending
 
 - Push branch when requested.
-- Plan Phase 4.
+- Execute Phase 4.
 
 ## Notes
 
@@ -76,7 +80,7 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
 - `client-build/` is validated locally against the direct server, but public deployment/WSS/dispatcher behavior remains unvalidated.
 - Vendored browser runtime files under `client/js/lib/` remain intentionally unchanged and frozen with rationale.
 - `require-jquery.js` remains frozen unless a dedicated loader/jQuery migration is created.
-- Phase 4 should focus on private production prep: WSS/proxy/dispatcher and process operations.
+- Phase 4 plans intentionally avoid claiming real public TLS/proxy validation; they prepare configurable private production operation and document remaining limitations.
 
 ---
-*Last updated: 2026-07-09 after Phase 3 execution*
+*Last updated: 2026-07-09 after Phase 4 planning*

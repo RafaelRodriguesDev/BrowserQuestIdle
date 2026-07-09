@@ -22,6 +22,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 - Phase 2: `npm run smoke:browser:build` validates the optimized build against the local direct server with `dispatcher: false`.
 - Phase 3: `npm run vendor:check` verifies vendored browser library contracts under `client/js/lib/`.
 - Phase 3: every vendored browser library has an explicit freeze decision and rationale in `client/js/lib/README.md`.
+- Phase 4: private production preparation is planned around configurable WebSocket protocol, private server bind/proxy operation, healthcheck, logs, and runbook.
 
 ### Active
 
@@ -31,7 +32,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 
 - Reescrever o jogo para framework moderno nesta primeira etapa, porque o risco e alto e nao agrega ao objetivo imediato.
 - Criar autenticacao, banco de dados ou contas persistentes, porque o jogo original usa nome e `localStorage`.
-- Publicacao publica com HTTPS/WSS nesta fase, porque o cliente ainda usa `ws://` fixo.
+- Publicacao publica com dominio/certificado HTTPS/WSS real, porque Phase 4 prepara configuracao privada e nao valida um proxy publico real.
 - Novas mecanicas idle/gameplay antes de estabilizar runtime e testes.
 
 ## Context
@@ -61,6 +62,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 | Validar `client-build/` sem trocar bibliotecas vendorizadas | O build legado precisava conectar ao servidor direto antes de qualquer troca de RequireJS/jQuery | Implemented in Phase 2 |
 | Congelar `require-jquery.js` ate existir plano dedicado de loader/jQuery | O arquivo combina RequireJS 0.26.0, jQuery 1.6.4, AMD `jquery` e globals usados pelo cliente | Implemented in Phase 3 |
 | Exigir `vendor:check` antes de aceitar mudancas em `client/js/lib` | Npm update nao protege bibliotecas vendorizadas nem seus globals/AMD contracts | Implemented in Phase 3 |
+| Preparar producao privada antes de features idle | WSS/proxy/health/logs precisam estar claros para nao misturar operacao com gameplay novo | Planned in Phase 4 |
 
 ## Evolution
 
@@ -80,4 +82,4 @@ After each milestone:
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-07-09 after Phase 3 execution*
+*Last updated: 2026-07-09 after Phase 4 planning*

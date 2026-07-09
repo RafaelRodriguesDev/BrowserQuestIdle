@@ -101,7 +101,22 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 2. Servidor pode rodar atras de proxy sem expor Node diretamente.
 3. Operacao minima tem logs, healthcheck e runbook.
 
-**Status:** Pending
+**Plans:**
+
+| Wave | Plan | What it builds |
+|------|------|----------------|
+| 1 | `04-01-websocket-endpoint-config-and-smoke` | Configurable client WebSocket protocol with preserved local/build smokes |
+| 2 | `04-02-proxy-runtime-health-and-ops` | Private bind host, health endpoint, and operational runbook |
+| 3 | `04-03-docs-final-validation` | Docs, codebase map refresh, and final Phase 4 validation |
+
+**Cross-cutting constraints:**
+
+- Keep `/client/`, `client-build/`, and `vendor:check` validation green.
+- Do not claim public TLS/proxy deployment unless a real proxy/WSS smoke is run.
+- Preserve WebSocket message protocol and dispatcher reply compatibility.
+- Keep generated build output and local config files uncommitted.
+
+**Status:** Planned - 2026-07-09
 
 ### Phase 5: Base para features BrowserQuestIdle
 
@@ -116,4 +131,4 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 **Status:** Pending
 
 ---
-*Last updated: 2026-07-09 after Phase 3 execution*
+*Last updated: 2026-07-09 after Phase 4 planning*
