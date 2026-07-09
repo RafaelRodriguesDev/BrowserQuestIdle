@@ -3,10 +3,13 @@
     "version": "0.0.1",
     "private": false,
     "scripts": {
+        "build:client": "node scripts/build-client.js",
         "smoke:server": "node scripts/smoke-server.js",
         "smoke:websocket": "node scripts/smoke-websocket.js",
         "smoke:browser": "node scripts/smoke-browser.js",
-        "smoke": "npm run smoke:server && npm run smoke:websocket && npm run smoke:browser"
+        "smoke:browser:build": "node scripts/smoke-browser-build.js",
+        "smoke": "npm run smoke:server && npm run smoke:websocket && npm run smoke:browser",
+        "smoke:all": "npm run smoke && npm run smoke:browser:build"
     },
     "dependencies": {
         "bison": ">0",

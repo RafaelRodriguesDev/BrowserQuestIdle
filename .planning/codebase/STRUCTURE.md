@@ -32,7 +32,7 @@ focus: arch
 ## Client
 
 - `client/index.html`: browser entrypoint.
-- `client/README.md`: current local root-serving note plus original production build caveat.
+- `client/README.md`: current local root-serving note plus optimized build instructions.
 - `client/config/config_build.json-dist`: production/client config template.
 - `client/config/config_build.json`: local ignored config generated for current local test.
 - `client/config/config_local.json-dist`: local client override template.
@@ -54,8 +54,10 @@ focus: arch
 
 ## Build
 
-- `bin/build.sh`: shell script for optimized client build.
-- `bin/r.js`: vendored RequireJS optimizer.
+- `scripts/build-client.js`: cross-platform optimized client build command.
+- `scripts/smoke-browser-build.js`: Playwright smoke for optimized `client-build/`.
+- `bin/build.sh`: Unix wrapper for optimized client build.
+- `bin/r.js`: vendored RequireJS optimizer, patched for Node 24 compatibility.
 - `client/js/build.js`: optimizer config.
 - Build output target: `client-build/`, ignored by Git.
 
@@ -79,9 +81,9 @@ focus: arch
 
 - `package.json` and `package-lock.json`: npm dependency decisions.
 - `server/js/ws.js`: `ws` compatibility.
-- `scripts/smoke-*.js`: local smoke verification contract.
+- `scripts/smoke-*.js`: local smoke verification contract for runtime and optimized build.
 - `server/js/worldserver.js`: now uses the runtime logger/fallback instead of npm `log`.
 - `tools/maps/processmap.js`, `tools/maps/exportmap.js`: now use local console logger fallbacks.
 - `server/js/metrics.js`: optional memcache load only when metrics are enabled.
 - `client/js/lib/require-jquery.js`: old RequireJS/jQuery bundle.
-- `client/js/build.js`: production build pragmas alter WebSocket connection mode.
+- `client/js/game.js`: production build connection mode is controlled by `config_build.dispatcher`.

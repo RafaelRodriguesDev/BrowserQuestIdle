@@ -4,8 +4,7 @@ const path = require("path");
 const { chromium } = require("playwright");
 const { startServer, stopServer, waitForStatus } = require("./smoke-server");
 
-const STATIC_PORT = 9090;
-const ROOT = process.cwd();
+const DEFAULT_STATIC_PORT = 9090;
 
 const MIME_TYPES = {
     ".css": "text/css",
@@ -21,16 +20,16 @@ const MIME_TYPES = {
     ".xml": "application/xml"
 };
 
-function startStaticServer() {
+function startStaticServer(root, port) {
     const server = http.createServer((request, response) => {
-        const requestUrl = new URL(request.url, `http://127.0.0.1:${STATIC_PORT}`);
+        const requestUrl = new URL(request.url, `http://127.0.0.1:${port}`);
         let pathname = decodeURIComponent(requestUrl.pathname);
         if(pathname.endsWith("/")) {
             pathname += "index.html";
         }
 
-        const filePath = path.resolve(ROOT, pathname.replace(/^\/+/, ""));
-        if(!filePath.startsWith(ROOT)) {
+        const filePath = path.resolve(root, pathname.replace(/^\/+/, ""));
+        if(!filePath.startsWith(root)) {
             response.writeHead(403);
             response.end("Forbidden");
             return;
@@ -52,26 +51,55 @@ function startStaticServer() {
 
     return new Promise((resolve, reject) => {
         server.once("error", reject);
-        server.listen(STATIC_PORT, "127.0.0.1", () => resolve(server));
+        server.listen(port, "127.0.0.1", () => resolve(server));
     });
 }
 
-async function main() {
+async function runBrowserSmoke(options) {
+    options = options || {};
+    const root = path.resolve(options.root || process.cwd());
+    const clientPath = options.clientPath || "/client/";
+    const port = options.port || DEFAULT_STATIC_PORT;
+    const label = options.label || clientPath;
+
     const gameServer = startServer();
     let staticServer;
     let browser;
+    let diagnostics = [];
 
     try {
         await waitForStatus(10000);
-        staticServer = await startStaticServer();
+        staticServer = await startStaticServer(root, port);
 
         browser = await chromium.launch();
         const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+        diagnostics = [];
+        page.on("console", (message) => {
+            if(["error", "warning"].includes(message.type())) {
+                diagnostics.push(`console:${message.type()}: ${message.text()}`);
+            }
+        });
+        page.on("pageerror", (error) => {
+            diagnostics.push(`pageerror: ${error.message}`);
+        });
+        page.on("requestfailed", (request) => {
+            const failure = request.failure();
+            diagnostics.push(`requestfailed: ${request.url()} ${failure ? failure.errorText : ""}`.trim());
+        });
         await page.addInitScript(() => window.localStorage.clear());
-        await page.goto(`http://127.0.0.1:${STATIC_PORT}/client/`, { waitUntil: "domcontentloaded" });
+        await page.goto(`http://127.0.0.1:${port}${clientPath}`, { waitUntil: "domcontentloaded" });
 
         await page.locator("#nameinput").fill("CodexTester");
-        await page.waitForFunction(() => !document.querySelector("#createcharacter .play").classList.contains("disabled"));
+        await page.evaluate(() => {
+            const input = document.querySelector("#nameinput");
+            input.value = "CodexTester";
+            input.setAttribute("value", "CodexTester");
+            input.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true }));
+        });
+        await page.waitForFunction(() => {
+            const play = document.querySelector("#createcharacter .play");
+            return play && !play.classList.contains("disabled");
+        });
         await page.locator("#createcharacter .play div").click();
 
         await page.locator("body.started").waitFor({ timeout: 20000 });
@@ -105,9 +133,12 @@ async function main() {
             throw new Error("Browser game state was not healthy after movement click");
         }
 
-        console.log("smoke:browser ok /client/ started with 1 player and accepted movement click");
+        console.log(`smoke:browser ok ${label} started with 1 player and accepted movement click`);
     } catch(error) {
         console.error(`smoke:browser failed: ${error.message}`);
+        if(typeof diagnostics !== "undefined" && diagnostics.length > 0) {
+            console.error(diagnostics.slice(-20).join("\n"));
+        }
         process.exitCode = 1;
     } finally {
         if(browser) {
@@ -120,6 +151,15 @@ async function main() {
     }
 }
 
+async function main() {
+    await runBrowserSmoke();
+}
+
 if(require.main === module) {
     main();
 }
+
+module.exports = {
+    runBrowserSmoke,
+    startStaticServer
+};

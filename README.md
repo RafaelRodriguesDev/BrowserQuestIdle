@@ -56,6 +56,27 @@ npm run smoke:browser
 The smoke suite verifies `/status`, the BrowserQuest WebSocket `HELLO`/`WELCOME` handshake, and browser gameplay entry at `/client/` with a movement click.
 
 
+Client Build
+------------
+
+The default local development path remains `/client/`. The optimized legacy build is also available for validation:
+
+```powershell
+npm run build:client
+npm run smoke:browser:build
+```
+
+`npm run build:client` creates ignored local output in `client-build/` and `build.txt`. The build smoke serves `client-build/` and verifies the same basic browser entry and movement flow against the local direct game server.
+
+Run all smoke checks, including the optimized build smoke:
+
+```powershell
+npm run smoke:all
+```
+
+Generated build output and local config files are not committed.
+
+
 Documentation
 -------------
 

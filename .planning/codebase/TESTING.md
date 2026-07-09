@@ -12,7 +12,10 @@ focus: quality
 - `npm run smoke:server`: starts `server/js/main.js`, waits for `/status`, and asserts a JSON array.
 - `npm run smoke:websocket`: starts the server, connects with `ws`, receives `go`, sends `HELLO`, and asserts `WELCOME`.
 - `npm run smoke:browser`: starts the server and static root server, opens `/client/` with Playwright, creates a character, verifies one player, and clicks the map.
+- `npm run build:client`: regenerates ignored `client-build/` output with the legacy RequireJS optimizer.
+- `npm run smoke:browser:build`: builds `client-build/`, serves it with Playwright, creates a character, verifies one player, and clicks the map.
 - `npm run smoke`: runs all smoke checks in sequence.
+- `npm run smoke:all`: runs the runtime smoke suite plus the optimized build browser smoke.
 
 There is still no CI configuration in the current repository snapshot.
 
@@ -27,7 +30,7 @@ The manual verification path remains:
 5. Confirm `GET http://localhost:8000/status` returns one player in a world.
 6. Click the map and verify character movement.
 
-This path is now covered by `npm run smoke:browser`.
+This path is now covered by `npm run smoke:browser`; the optimized `client-build/` equivalent is covered by `npm run smoke:browser:build`.
 
 ## Current Smoke Evidence
 
@@ -64,7 +67,7 @@ The next useful layer should stay close to gameplay risk:
 
 - Combat correctness is distributed across `client/js/game.js`, `server/js/player.js`, `server/js/worldserver.js`, and `server/js/formulas.js`.
 - Map exporter correctness depends on Tiled TMX data and Python/Node tooling.
-- Production build correctness depends on `bin/r.js` and `client/js/build.js` pragmas.
+- Public production build correctness depends on `bin/r.js`, `client/js/build.js` pragmas, WSS/proxy behavior, and optional dispatcher mode.
 - Audio behavior varies by browser and file availability.
 
 ## Risk From No Tests

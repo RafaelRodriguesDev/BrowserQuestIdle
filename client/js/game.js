@@ -712,7 +712,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
 
         connect: function(started_callback) {
             var self = this,
-                connecting = false; // always in dispatcher mode in the build version
+                connecting = false;
     
             this.client = new GameClient(this.host, this.port);
             
@@ -726,7 +726,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             
             //>>includeStart("prodHost", pragmas.prodHost);
             if(!connecting) {
-                this.client.connect(true); // always use the dispatcher in production
+                this.client.connect(this.app.config.build.dispatcher === true);
             }
             //>>includeEnd("prodHost");
             

@@ -24,27 +24,30 @@ Do not run the static server from inside `client/`; the browser loads `../shared
 Production Build
 ----------------
 
-The original deployment flow builds `client-build/`, but that path has not been revalidated in this modernization baseline.
+The optimized legacy build path creates `client-build/` and is validated locally against the direct game server.
 
-Original deployment steps:
+Configure the websocket host/port:
 
-1) Configure the websocket host/port:
+1. Copy `client/config/config_build.json-dist` to `client/config/config_build.json`.
+2. Edit host/port settings for the target server.
+3. Keep `"dispatcher": false` for the current direct BrowserQuest game server.
 
-In the client/config/ directory, copy config_build.json-dist to a new config_build.json file.
-Edit the contents of this file to change host/port settings.
+Use `"dispatcher": true` only when deploying behind a BrowserQuest dispatcher endpoint that returns `{status, host, port}`.
 
-2) Run the following commands from the project root:
+Build from the project root:
 
-(Note: nodejs is required to run the build script)
+```powershell
+npm run build:client
+```
 
-* cd bin
-* chmod +x build.sh
-* ./build.sh
+Validate the optimized output locally:
 
-This will use the RequireJS optimizer tool to create a client-build/ directory containing a production-ready version of BrowserQuest. 
+```powershell
+npm run smoke:browser:build
+```
 
-A build log file will also be created at bin/build.txt.
+The legacy Unix entrypoint is still available as `bin/build.sh`; it delegates to `npm run build:client`.
 
-The client-build directory can be renamed and deployed anywhere. It has no dependencies to any other file/folder in the repository.
+The build uses the vendored RequireJS optimizer to create `client-build/` and writes a root `build.txt` log. Both files are ignored by Git and should be regenerated locally.
 
-Important: the optimized build uses the old RequireJS optimizer and production host pragmas. Validate `client-build/` separately before relying on it.
+Important: public production deployment still needs separate validation for HTTPS/WSS, proxy behavior, and any dispatcher-specific setup.

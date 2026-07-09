@@ -13,12 +13,11 @@ focus: concerns
 The local path avoids this because `metrics_enabled` is false.
 If metrics are enabled without adding a maintained memcache client, runtime now fails with an explicit error.
 
-### Production build path likely does not match local verified path
+### Public production build deployment is not fully validated
 
 `client/js/build.js` sets `prodHost: true`.
-`client/js/game.js` uses dispatcher mode in production build when it cannot find local/dev config.
-The current server is a direct game server, not a dispatcher returning `{status, host, port}`.
-This means `client-build/` may not behave like the tested `/client/` path.
+`client/js/game.js` now reads `config_build.dispatcher`, and the local optimized `client-build/` path is validated against the direct server with `dispatcher: false`.
+Public deployment still needs separate validation for HTTPS/WSS, proxy behavior, and any dispatcher endpoint using `{status, host, port}`.
 
 ### Vendored client dependencies are old and untracked by npm
 
@@ -72,5 +71,6 @@ Python scripts and shell scripts may need Windows-specific validation.
 ## Recommended Update Order
 
 1. Stabilize clean install: declare or remove every runtime import (`log`, `memcache`).
-2. Freeze or explicitly document vendored browser libraries before replacing them.
-3. Only then attempt optional modernization of RequireJS/jQuery/Modernizr/build tooling.
+2. Keep `/client/` and `client-build/` smoke checks green while changing browser code.
+3. Freeze or explicitly document vendored browser libraries before replacing them.
+4. Only then attempt optional modernization of RequireJS/jQuery/Modernizr/build tooling.

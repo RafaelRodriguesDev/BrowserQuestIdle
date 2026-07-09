@@ -58,11 +58,14 @@ Updating them is not equivalent to `npm update`; it requires browser regression 
 
 ## Build Tooling
 
-- `bin/r.js` is a vendored RequireJS optimizer.
-- `bin/build.sh` runs `node ../../bin/r.js -o build.js` from `client/js`.
+- `scripts/build-client.js` is the Windows-friendly build command used by `npm run build:client`.
+- `bin/build.sh` is now a Unix wrapper that delegates to `npm run build:client`.
+- `bin/r.js` is a vendored RequireJS optimizer patched for Node 24 compatibility.
 - `client/js/build.js` configures the optimized build.
-- The optimized production path uses `prodHost: true`, which changes connection behavior toward dispatcher mode in `client/js/game.js`.
-- The local tested path is the unbuilt client at `/client/`, not `client-build/`.
+- The optimized production path uses `prodHost: true`, and `client/js/game.js` now reads `config_build.dispatcher` to choose dispatcher mode.
+- The default local path remains the unbuilt client at `/client/`.
+- `client-build/` is locally smoke-tested by `npm run smoke:browser:build` against the direct server when `dispatcher` is `false`.
+- Generated `client-build/` output and `build.txt` are ignored by Git.
 
 ## Map Tooling
 

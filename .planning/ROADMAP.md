@@ -62,7 +62,7 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 - Do not commit generated `client-build/` output.
 - Direct-server build support must not silently rely on dispatcher mode.
 
-**Status:** Planned
+**Status:** Complete - 2026-07-09
 
 ### Phase 3: Modernizacao controlada de bibliotecas vendorizadas
 
@@ -101,4 +101,4 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 **Status:** Pending
 
 ---
-*Last updated: 2026-07-09 after Phase 2 planning*
+*Last updated: 2026-07-09 after Phase 2 execution*

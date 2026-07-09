@@ -18,10 +18,11 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 - Phase 1: `npm install`, `npm ls --depth=0`, `npm audit`, `npm audit --omit=dev`, and `npm run smoke` passed.
 - Phase 1: smoke scripts cover server `/status`, WebSocket `HELLO`/`WELCOME`, and browser `/client/` entry with movement click.
 - Phase 1: root/server/client docs match the verified local run path.
+- Phase 2: `npm run build:client` creates ignored `client-build/` output through the legacy RequireJS optimizer.
+- Phase 2: `npm run smoke:browser:build` validates the optimized build against the local direct server with `dispatcher: false`.
 
 ### Active
 
-- [ ] Reconciliar `client-build/`, config local/build e dispatcher mode com o servidor atual.
 - [ ] Preservar protocolo atual de mensagens e comportamento de gameplay durante a modernizacao.
 - [ ] Mapear e isolar bibliotecas vendorizadas antes de qualquer troca de RequireJS, jQuery, Modernizr ou build tooling.
 
@@ -39,7 +40,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 - O projeto original e legado, com servidor CommonJS e cliente AMD/RequireJS.
 - O codebase map atual esta em `.planning/codebase/`.
 - `ws`, `underscore` e `bison` ja estao nas versoes npm mais recentes verificadas em 2026-07-09.
-- O maior risco esta em bibliotecas vendorizadas sob `client/js/lib/`, imports residuais de `log`, dependencia antiga de `memcache` em metricas e build de producao em modo dispatcher.
+- O maior risco esta em bibliotecas vendorizadas sob `client/js/lib/`, dependencia antiga de `memcache` em metricas e deploy publico com WSS/proxy/dispatcher.
 
 ## Constraints
 
@@ -56,7 +57,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 | Manter BrowserQuest local funcionando antes de modernizar bibliotecas vendorizadas | O jogo quebra facilmente em module loading e globals legados | Validated in Phase 1 |
 | Tratar `client/js/lib` como superficie separada de npm | Npm update nao atualiza o runtime browser vendorizado | Validated in Phase 1 |
 | Criar smoke tests antes de grandes trocas | Sem testes, regressao so aparece manualmente no navegador | Implemented in Phase 1 |
-| Nao usar o build `client-build/` como caminho validado inicial | O build usa `prodHost` e dispatcher mode diferente do servidor local | Deferred to Phase 2 |
+| Validar `client-build/` sem trocar bibliotecas vendorizadas | O build legado precisava conectar ao servidor direto antes de qualquer troca de RequireJS/jQuery | Implemented in Phase 2 |
 
 ## Evolution
 
@@ -76,4 +77,4 @@ After each milestone:
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-07-09 after Phase 1 execution*
+*Last updated: 2026-07-09 after Phase 2 execution*

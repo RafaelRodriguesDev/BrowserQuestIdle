@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-07-09)
 
 **Core value:** O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base tecnica e modernizada.
-**Current focus:** Phase 2 - Build legado e configuracao de ambiente
+**Current focus:** Phase 3 - Modernizacao controlada de bibliotecas vendorizadas
 
 ## Current Status
 
 - Branch: `feature/refactor_1_0_browserQuestIdle`
 - Last codebase map: `.planning/codebase/`
-- Current workflow: `$gsd-plan-phase` Phase 2 complete
-- Status: Phase 2 planned, ready for execution
+- Current workflow: `$gsd-execute-phase` Phase 2 complete
+- Status: Phase 2 implemented and ready for Phase 3 planning
 
 ## Completed
 
@@ -38,18 +38,29 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
   - `02-01-build-command-and-diagnostics`
   - `02-02-build-connection-and-smoke`
   - `02-03-docs-final-validation`
+- Phase 2 implementation added:
+  - `npm run build:client`
+  - `npm run smoke:browser:build`
+  - `npm run smoke:all`
+  - Direct-server optimized build mode via `config_build.dispatcher: false`
+- Phase 2 verified with:
+  - `npm install`
+  - `npm run smoke`
+  - `npm run build:client`
+  - `npm run smoke:browser:build`
+  - `git check-ignore client-build build.txt`
 
 ## Pending
 
 - Push branch when requested.
-- Execute Phase 2.
+- Plan Phase 3.
 
 ## Notes
 
 - `gsd-sdk` is not available in PATH, so GSD artifacts were produced manually following the skill workflows.
 - `browserquest-local-test.png` is local evidence and intentionally not committed.
-- `client-build/` remains unvalidated until Phase 2 execution.
+- `client-build/` is validated locally against the direct server, but public deployment/WSS/dispatcher behavior remains unvalidated.
 - Vendored browser libraries under `client/js/lib/` remain intentionally unchanged.
 
 ---
-*Last updated: 2026-07-09 after Phase 2 planning*
+*Last updated: 2026-07-09 after Phase 2 execution*
