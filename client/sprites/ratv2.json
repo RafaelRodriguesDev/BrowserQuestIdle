@@ -1,9 +1,9 @@
 {
     "id": "ratv2",
-    "width": 81,
-    "height": 81,
-    "offset_x": -34,
-    "offset_y": -45,
+    "width": 40,
+    "height": 40,
+    "offset_x": -13,
+    "offset_y": -14,
     "animations": {
         "death": {
             "length": 4,
