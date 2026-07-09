@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 import sys
-from lxml import etree
+import xml.etree.ElementTree as etree
 import json
 
 tmx = open(sys.argv[1])
 dest = open(sys.argv[2], 'w')
-res = {}
 
 root = etree.parse(tmx).getroot()
 el = root
@@ -16,7 +15,7 @@ def process(el, tagname):
         if attrs[a].isdigit():
             attrs[a] = int(attrs[a])
     
-    children = el.getchildren()
+    children = list(el)
     
     if len(children) > 1:
         sibs = {}
@@ -41,4 +40,4 @@ dest.write(json.dumps(res))
 tmx.close()
 dest.close()
 
-print "Finished converting TMX to JSON."
+print("Finished converting TMX to JSON.")

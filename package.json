@@ -1,14 +1,24 @@
 {
-    "name": "BrowserQuest"
-  , "version": "0.0.1"
-  , "private": false 
-  , "dependencies": {
-    "underscore": ">0"
-    , "log": ">0"
-    , "bison": ">0"
-    , "websocket": ">0"
-    , "websocket-server": ">0"
-    , "sanitizer": ">0"
-    , "memcache": ">0"
-  }
+    "name": "BrowserQuest",
+    "version": "0.0.1",
+    "private": false,
+    "scripts": {
+        "build:client": "node scripts/build-client.js",
+        "vendor:check": "node scripts/check-vendored-libs.js",
+        "smoke:server": "node scripts/smoke-server.js",
+        "smoke:health": "node scripts/smoke-server.js --health",
+        "smoke:websocket": "node scripts/smoke-websocket.js",
+        "smoke:browser": "node scripts/smoke-browser.js",
+        "smoke:browser:build": "node scripts/smoke-browser-build.js",
+        "smoke": "npm run smoke:server && npm run smoke:websocket && npm run smoke:browser",
+        "smoke:all": "npm run smoke && npm run smoke:browser:build"
+    },
+    "dependencies": {
+        "bison": ">0",
+        "underscore": ">0",
+        "ws": "^8.18.0"
+    },
+    "devDependencies": {
+        "playwright": "^1.61.1"
+    }
 }

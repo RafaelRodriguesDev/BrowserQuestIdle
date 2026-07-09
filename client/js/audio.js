@@ -11,7 +11,7 @@ define(['area'], function(Area) {
             this.game = game;
             this.currentMusic = null;
             this.areas = [];
-            this.musicNames = ["village", "beach", "forest", "cave", "desert", "lavaland", "boss"];
+            this.musicNames = [];
             this.soundNames = ["loot", "hit1", "hit2", "hurt", "heal", "chat", "revive", "death", "firefox", "achievement", "kill1", "kill2", "noloot", "teleport", "chest", "npc", "npc-end"];
             
             var loadSoundFiles = function() {
@@ -29,7 +29,7 @@ define(['area'], function(Area) {
             };
             
             var loadMusicFiles = function() {
-                if(!self.game.renderer.mobile) { // disable music on mobile devices
+                if(!self.game.renderer.mobile && self.musicNames.length > 0) { // disable music on mobile devices
                     log.info("Loading music files...");
                     // Load the village music first, as players always start here
                     self.loadMusic(self.musicNames.shift(), function() {

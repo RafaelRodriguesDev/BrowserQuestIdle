@@ -1,8 +1,11 @@
 
-var Log = require('log'),
-    _ = require('underscore'),
-    log = new Log(Log.DEBUG),
+var _ = require('underscore'),
     Types = require("../../shared/js/gametypes");
+
+var log = {
+    info: function() { console.log.apply(console, arguments); },
+    error: function() { console.error.apply(console, arguments); }
+};
 
 var map,
     mode,

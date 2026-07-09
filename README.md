@@ -1,13 +1,126 @@
-BrowserQuest
-============
+BrowserQuestIdle
+================
 
-BrowserQuest is a HTML5/JavaScript multiplayer game experiment.
+BrowserQuestIdle is a local modernization baseline for Mozilla BrowserQuest, an HTML5/JavaScript multiplayer game experiment.
+
+The current validated path is local development play: install dependencies, start the Node game server, serve the repository root as static files, open `/client/`, create a character, and move in the map.
+
+
+Local Run
+---------
+
+Install dependencies:
+
+```powershell
+npm install
+```
+
+Start the game server:
+
+```powershell
+node server/js/main.js
+```
+
+In another shell, serve the repository root. Example:
+
+```powershell
+python -m http.server 9090
+```
+
+Open:
+
+```text
+http://localhost:9090/client/
+```
+
+Do not serve the `client/` directory directly. The client loads shared files from `../shared/`, so the repository root must be the static web root.
+
+
+Smoke Checks
+------------
+
+Verify vendored browser library contracts:
+
+```powershell
+npm run vendor:check
+```
+
+Run the full local smoke suite:
+
+```powershell
+npm run smoke
+```
+
+Individual checks:
+
+```powershell
+npm run smoke:server
+npm run smoke:health
+npm run smoke:websocket
+npm run smoke:browser
+```
+
+The smoke suite verifies `/status`, `/health`, the BrowserQuest WebSocket `HELLO`/`WELCOME` handshake, and browser gameplay entry at `/client/` with a movement click.
+
+Vendored browser libraries in `client/js/lib/` are not updated by npm. Any change there must pass `npm run vendor:check` and `npm run smoke:all`.
+
+
+Client Build
+------------
+
+The default local development path remains `/client/`. The optimized legacy build is also available for validation:
+
+```powershell
+npm run build:client
+npm run smoke:browser:build
+```
+
+`npm run build:client` creates ignored local output in `client-build/` and `build.txt`. The build smoke serves `client-build/` and verifies the same basic browser entry and movement flow against the local direct game server.
+
+Run all smoke checks, including the optimized build smoke:
+
+```powershell
+npm run smoke:all
+```
+
+Generated build output and local config files are not committed.
+
+
+Private Production
+------------------
+
+Private production is configuration-ready but not validated against a real public TLS proxy in this repository.
+
+The browser WebSocket endpoint is configured through `client/config/config_build.json`:
+
+```json
+{
+    "host": "game.example.internal",
+    "port": 443,
+    "protocol": "wss",
+    "dispatcher": false
+}
+```
+
+Use `"protocol": "ws"` for local/private plaintext traffic, `"protocol": "wss"` when the browser connects through a TLS-terminating proxy, or `"protocol": "auto"` when the static site and WebSocket endpoint share the page protocol.
+
+The Node game server should bind to loopback or a private interface in `server/config_local.json`:
+
+```json
+{
+    "host": "127.0.0.1",
+    "port": 8000
+}
+```
+
+A reverse proxy owns HTTPS termination and WebSocket upgrade forwarding to that private listener. Supervisors should run `node server/js/main.js`, capture stdout/stderr, restart the process on failure, and use `npm run smoke:health` or `GET http://127.0.0.1:8000/health` as the readiness check.
 
 
 Documentation
 -------------
 
-Documentation is located in client and server directories.
+Additional notes are in `client/README.md` and `server/README.md`.
+Vendored browser library decisions are tracked in `client/js/lib/README.md`.
 
 
 License
@@ -19,6 +132,7 @@ See the LICENSE file for details.
 
 Credits
 -------
+
 Created by [Little Workshop](http://www.littleworkshop.fr):
 
 * Franck Lecollinet - [@whatthefranck](http://twitter.com/whatthefranck)

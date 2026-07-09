@@ -1,0 +1,17 @@
+{
+  "mode": "yolo",
+  "granularity": "standard",
+  "parallelization": false,
+  "commit_docs": true,
+  "model_profile": "inherit",
+  "workflow": {
+    "research": true,
+    "plan_check": true,
+    "verifier": true,
+    "auto_advance": false,
+    "context_coverage_gate": true,
+    "post_planning_gaps": true
+  },
+  "text_mode": true,
+  "response_language": "pt-BR"
+}
