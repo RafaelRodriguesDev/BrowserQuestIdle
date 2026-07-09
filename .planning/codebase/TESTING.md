@@ -9,6 +9,7 @@ focus: quality
 
 `package.json` now provides smoke-level validation:
 
+- `npm run vendor:check`: verifies vendored browser library files and key API/version markers under `client/js/lib/`.
 - `npm run smoke:server`: starts `server/js/main.js`, waits for `/status`, and asserts a JSON array.
 - `npm run smoke:websocket`: starts the server, connects with `ws`, receives `go`, sends `HELLO`, and asserts `WELCOME`.
 - `npm run smoke:browser`: starts the server and static root server, opens `/client/` with Playwright, creates a character, verifies one player, and clicks the map.
@@ -75,3 +76,4 @@ The next useful layer should stay close to gameplay risk:
 Dependency updates can break the app at module-load time before gameplay starts.
 The most likely breakages are RequireJS module resolution, implicit globals, and WebSocket protocol assumptions.
 Any update plan should add smoke tests before replacing vendored browser libraries.
+For `client/js/lib/` specifically, `npm run vendor:check` is a fast contract gate, but it is not sufficient by itself; accepted changes still need `npm run smoke:all`.

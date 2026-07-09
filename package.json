@@ -4,6 +4,7 @@
     "private": false,
     "scripts": {
         "build:client": "node scripts/build-client.js",
+        "vendor:check": "node scripts/check-vendored-libs.js",
         "smoke:server": "node scripts/smoke-server.js",
         "smoke:websocket": "node scripts/smoke-websocket.js",
         "smoke:browser": "node scripts/smoke-browser.js",

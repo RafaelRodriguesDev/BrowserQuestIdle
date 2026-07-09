@@ -55,6 +55,8 @@ These are not managed by npm today:
 
 These libraries are loaded directly by `client/index.html` and AMD module names in `client/js/*.js`.
 Updating them is not equivalent to `npm update`; it requires browser regression testing.
+`client/js/lib/README.md` records the current freeze/probe decision for each file.
+`npm run vendor:check` verifies the expected vendored files and key API/version markers before browser smoke runs.
 
 ## Build Tooling
 
@@ -89,6 +91,7 @@ Updating them is not equivalent to `npm update`; it requires browser regression 
 
 - `ws`, `underscore`, and `bison` are already at latest npm versions.
 - The biggest dependency work is not version bumping; it is replacing or freezing vendored client libraries.
+- Vendored library work must start with `npm run vendor:check` and finish with browser smoke on both `/client/` and `client-build/`.
 - Legacy `log` imports were removed from the default server and map tooling.
 - `memcache` is only loaded when metrics are enabled; default local play keeps metrics disabled.
 - A clean install strategy still needs to decide whether old metrics should be modernized or retired.
