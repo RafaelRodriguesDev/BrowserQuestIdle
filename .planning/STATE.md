@@ -11,8 +11,8 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
 
 - Branch: `feature/refactor_1_0_browserQuestIdle`
 - Last codebase map: `.planning/codebase/`
-- Current workflow: `$gsd-execute-phase` Phase 1 complete
-- Status: Phase 1 verified, ready to discuss or plan Phase 2
+- Current workflow: `$gsd-plan-phase` Phase 2 complete
+- Status: Phase 2 planned, ready for execution
 
 ## Completed
 
@@ -34,19 +34,22 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
   - `npm audit --omit=dev`
   - `npm audit`
   - `npm run smoke`
+- Phase 2 context/research/plans created:
+  - `02-01-build-command-and-diagnostics`
+  - `02-02-build-connection-and-smoke`
+  - `02-03-docs-final-validation`
 
 ## Pending
 
-- Commit Phase 1 close-out artifacts.
 - Push branch when requested.
-- Discuss or plan Phase 2: build legado e configuracao de ambiente.
+- Execute Phase 2.
 
 ## Notes
 
 - `gsd-sdk` is not available in PATH, so GSD artifacts were produced manually following the skill workflows.
 - `browserquest-local-test.png` is local evidence and intentionally not committed.
-- `client-build/` remains unvalidated and is the main Phase 2 target.
+- `client-build/` remains unvalidated until Phase 2 execution.
 - Vendored browser libraries under `client/js/lib/` remain intentionally unchanged.
 
 ---
-*Last updated: 2026-07-09 after Phase 1 execution*
+*Last updated: 2026-07-09 after Phase 2 planning*

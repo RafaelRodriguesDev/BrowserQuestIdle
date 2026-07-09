@@ -47,7 +47,22 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 2. O build legado ou e corrigido para conectar no servidor atual ou fica explicitamente fora do fluxo 1.0.
 3. Docs deixam claro como rodar local e como empacotar.
 
-**Status:** Pending
+**Plans:**
+
+| Wave | Plan | What it builds |
+|------|------|----------------|
+| 1 | `02-01-build-command-and-diagnostics` | Windows-friendly legacy build command and generated-output hygiene |
+| 2 | `02-02-build-connection-and-smoke` | Build connection-mode decision and browser smoke coverage |
+| 3 | `02-03-docs-final-validation` | Build docs, codebase map refresh, and final validation |
+
+**Cross-cutting constraints:**
+
+- Keep `/client/` as the verified local baseline unless build smoke proves otherwise.
+- Do not replace vendored RequireJS/jQuery/Modernizr in Phase 2.
+- Do not commit generated `client-build/` output.
+- Direct-server build support must not silently rely on dispatcher mode.
+
+**Status:** Planned
 
 ### Phase 3: Modernizacao controlada de bibliotecas vendorizadas
 
@@ -86,4 +101,4 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 **Status:** Pending
 
 ---
-*Last updated: 2026-07-09 after Phase 1 execution*
+*Last updated: 2026-07-09 after Phase 2 planning*
