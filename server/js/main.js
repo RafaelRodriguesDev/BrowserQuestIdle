@@ -1,15 +1,20 @@
 
 var fs = require('fs'),
+    Metrics = null;
+
+try {
     Metrics = require('./metrics');
+} catch(e) {
+    // Metrics are optional for local play.
+}
 
 
 function main(config) {
     var ws = require("./ws"),
         WorldServer = require("./worldserver"),
-        Log = require('log'),
         _ = require('underscore'),
         server = new ws.MultiVersionWebsocketServer(config.port),
-        metrics = config.metrics_enabled ? new Metrics(config) : null;
+        metrics = (config.metrics_enabled && Metrics) ? new Metrics(config) : null;
         worlds = [],
         lastTotalPlayers = 0,
         checkPopulationInterval = setInterval(function() {
@@ -25,13 +30,14 @@ function main(config) {
             }
         }, 1000);
     
-    switch(config.debug_level) {
-        case "error":
-            log = new Log(Log.ERROR); break;
-        case "debug":
-            log = new Log(Log.DEBUG); break;
-        case "info":
-            log = new Log(Log.INFO); break;
+    log = {
+        info: function() { console.log.apply(console, arguments); },
+        debug: function() {
+            if(config.debug_level === "debug") {
+                console.log.apply(console, arguments);
+            }
+        },
+        error: function() { console.error.apply(console, arguments); }
     };
     
     log.info("Starting BrowserQuest game server...");

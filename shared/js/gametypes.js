@@ -100,6 +100,10 @@ Types = {
     }
 };
 
+if(typeof window !== "undefined") {
+    window.Types = Types;
+}
+
 var kinds = {
     warrior: [Types.Entities.WARRIOR, "player"],
     
