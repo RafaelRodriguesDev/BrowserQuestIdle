@@ -74,7 +74,22 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 2. Mudancas de RequireJS/jQuery/Modernizr passam pelo smoke browser.
 3. Globals legados relevantes sao reduzidos ou documentados.
 
-**Status:** Pending
+**Plans:**
+
+| Wave | Plan | What it builds |
+|------|------|----------------|
+| 1 | `03-01-vendored-library-contract-and-registry` | Vendored library registry and automated contract check |
+| 2 | `03-02-controlled-library-probes` | One-at-a-time replacement/freeze decisions for low/medium-risk vendored libs |
+| 3 | `03-03-final-docs-and-validation` | Docs, codebase map refresh, and final Phase 3 validation |
+
+**Cross-cutting constraints:**
+
+- Keep `/client/` and `client-build/` smoke checks green.
+- Do not replace `require-jquery.js` without a dedicated loader/jQuery migration plan.
+- Preserve AMD module names and globals currently consumed by the client.
+- Every vendored library must end Phase 3 with an explicit replace/freeze/remove/defer decision.
+
+**Status:** Planned
 
 ### Phase 4: Preparacao para producao privada
 
@@ -101,4 +116,4 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 **Status:** Pending
 
 ---
-*Last updated: 2026-07-09 after Phase 2 execution*
+*Last updated: 2026-07-09 after Phase 3 planning*

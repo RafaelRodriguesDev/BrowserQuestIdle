@@ -11,8 +11,8 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
 
 - Branch: `feature/refactor_1_0_browserQuestIdle`
 - Last codebase map: `.planning/codebase/`
-- Current workflow: `$gsd-execute-phase` Phase 2 complete
-- Status: Phase 2 implemented and ready for Phase 3 planning
+- Current workflow: `$gsd-plan-phase` Phase 3 complete
+- Status: Phase 3 planned and ready for execution
 
 ## Completed
 
@@ -49,11 +49,15 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
   - `npm run build:client`
   - `npm run smoke:browser:build`
   - `git check-ignore client-build build.txt`
+- Phase 3 context/research/plans created:
+  - `03-01-vendored-library-contract-and-registry`
+  - `03-02-controlled-library-probes`
+  - `03-03-final-docs-and-validation`
 
 ## Pending
 
 - Push branch when requested.
-- Plan Phase 3.
+- Execute Phase 3.
 
 ## Notes
 
@@ -61,6 +65,8 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
 - `browserquest-local-test.png` is local evidence and intentionally not committed.
 - `client-build/` is validated locally against the direct server, but public deployment/WSS/dispatcher behavior remains unvalidated.
 - Vendored browser libraries under `client/js/lib/` remain intentionally unchanged.
+- Phase 3 plan intentionally freezes high-risk `require-jquery.js` unless a dedicated loader/jQuery migration is created.
+- `vendor:check` does not exist yet; it is introduced by plan `03-01`.
 
 ---
-*Last updated: 2026-07-09 after Phase 2 execution*
+*Last updated: 2026-07-09 after Phase 3 planning*

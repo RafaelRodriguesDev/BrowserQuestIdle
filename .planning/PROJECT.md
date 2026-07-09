@@ -25,6 +25,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 
 - [ ] Preservar protocolo atual de mensagens e comportamento de gameplay durante a modernizacao.
 - [ ] Mapear e isolar bibliotecas vendorizadas antes de qualquer troca de RequireJS, jQuery, Modernizr ou build tooling.
+- [ ] Criar contrato automatizado para `client/js/lib` antes de aceitar substituicoes de bibliotecas.
 
 ### Out of Scope
 
@@ -58,6 +59,7 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 | Tratar `client/js/lib` como superficie separada de npm | Npm update nao atualiza o runtime browser vendorizado | Validated in Phase 1 |
 | Criar smoke tests antes de grandes trocas | Sem testes, regressao so aparece manualmente no navegador | Implemented in Phase 1 |
 | Validar `client-build/` sem trocar bibliotecas vendorizadas | O build legado precisava conectar ao servidor direto antes de qualquer troca de RequireJS/jQuery | Implemented in Phase 2 |
+| Congelar `require-jquery.js` ate existir plano dedicado de loader/jQuery | O arquivo combina RequireJS 0.26.0, jQuery 1.6.4, AMD `jquery` e globals usados pelo cliente | Planned in Phase 3 |
 
 ## Evolution
 
@@ -77,4 +79,4 @@ After each milestone:
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-07-09 after Phase 2 execution*
+*Last updated: 2026-07-09 after Phase 3 planning*
