@@ -14,7 +14,8 @@ var cls = require("./lib/class"),
     Messages = require('./message'),
     Properties = require("./properties"),
     Utils = require("./utils"),
-    Types = require("../../shared/js/gametypes");
+    Types = require("../../shared/js/gametypes"),
+    IdleExtensions = require('./idle-extensions');
 
 var log = global.log || {
     info: function() { console.log.apply(console, arguments); },
@@ -67,6 +68,8 @@ module.exports = World = cls.Class.extend({
         this.onPlayerEnter(function(player) {
             log.info(player.name + " has joined "+ self.id);
             
+            IdleExtensions.onPlayerEnteredWorld(player);
+
             if(!player.hasEnteredGame) {
                 self.incrementPlayerCount();
             }
@@ -196,6 +199,7 @@ module.exports = World = cls.Class.extend({
         setInterval(function() {
             self.processGroups();
             self.processQueues();
+            IdleExtensions.onServerTick(self);
             
             if(updateCount < regenCount) {
                 updateCount += 1;

@@ -75,9 +75,7 @@ async function runBrowserSmoke(options) {
         const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
         diagnostics = [];
         page.on("console", (message) => {
-            if(["error", "warning"].includes(message.type())) {
-                diagnostics.push(`console:${message.type()}: ${message.text()}`);
-            }
+            diagnostics.push(`console:${message.type()}: ${message.text()}`);
         });
         page.on("pageerror", (error) => {
             diagnostics.push(`pageerror: ${error.message}`);
@@ -85,6 +83,11 @@ async function runBrowserSmoke(options) {
         page.on("requestfailed", (request) => {
             const failure = request.failure();
             diagnostics.push(`requestfailed: ${request.url()} ${failure ? failure.errorText : ""}`.trim());
+        });
+        page.on("response", response => {
+            if (response.status() >= 400) {
+                diagnostics.push(`response error: ${response.status()} ${response.url()}`);
+            }
         });
         await page.addInitScript(() => window.localStorage.clear());
         await page.goto(`http://127.0.0.1:${port}${clientPath}`, { waitUntil: "domcontentloaded" });

@@ -6,7 +6,8 @@ var cls = require("./lib/class"),
     Properties = require("./properties"),
     Formulas = require("./formulas"),
     check = require("./format").check,
-    Types = require("../../shared/js/gametypes");
+    Types = require("../../shared/js/gametypes"),
+    IdleExtensions = require("./idle-extensions");
 
 module.exports = Player = Character.extend({
     init: function(connection, worldServer) {
@@ -118,8 +119,10 @@ module.exports = Player = Character.extend({
                 var mob = self.server.getEntityById(message[1]);
                 
                 if(mob) {
-                    self.setTarget(mob);
-                    self.server.broadcastAttacker(self);
+                    if (IdleExtensions.onPlayerAction(self, mob)) {
+                        self.setTarget(mob);
+                        self.server.broadcastAttacker(self);
+                    }
                 }
             }
             else if(action === Types.Messages.HIT) {
