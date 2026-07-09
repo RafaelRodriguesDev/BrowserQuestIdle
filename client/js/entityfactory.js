@@ -28,6 +28,10 @@ define(['mobs', 'items', 'npcs', 'warrior', 'chest'], function(Mobs, Items, NPCs
         return new Mobs.Rat(id);
     };
 
+    EntityFactory.builders[Types.Entities.RATV2] = function(id) {
+        return new Mobs.Ratv2(id);
+    };
+
     EntityFactory.builders[Types.Entities.SKELETON] = function(id) {
         return new Mobs.Skeleton(id);
     };

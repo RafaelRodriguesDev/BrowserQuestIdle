@@ -88,13 +88,14 @@ def main():
         print(f"Erro ao salvar JSON: {e}")
         sys.exit(1)
         
-    # Salvar imagens (fator 2 e fator 1)
-    # A imagem de entrada jé é fator 2, a gente salva na pasta 2
+    # Salvar imagens (fator 2, fator 1 e fator 3)
     out_dir_2 = os.path.join("client", "img", "2")
     out_dir_1 = os.path.join("client", "img", "1")
+    out_dir_3 = os.path.join("client", "img", "3")
     
     out_path_2 = os.path.join(out_dir_2, args.out_image_name)
     out_path_1 = os.path.join(out_dir_1, args.out_image_name)
+    out_path_3 = os.path.join(out_dir_3, args.out_image_name)
     
     try:
         img.save(out_path_2)
@@ -103,6 +104,10 @@ def main():
         img1 = img.resize((width2 // 2, height2 // 2), Image.Resampling.NEAREST)
         img1.save(out_path_1)
         print(f"[7] Imagem de Escala 1 salva em {out_path_1}")
+
+        img3 = img.resize(((width2 // 2) * 3, (height2 // 2) * 3), Image.Resampling.NEAREST)
+        img3.save(out_path_3)
+        print(f"[8] Imagem de Escala 3 salva em {out_path_3}")
     except Exception as e:
         print(f"Erro ao salvar as imagens: {e}")
         sys.exit(1)

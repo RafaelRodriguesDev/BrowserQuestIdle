@@ -63,7 +63,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             this.debugPathing = false;
         
             // sprites
-            this.spriteNames = ["hand", "sword", "loot", "target", "talk", "sparks", "shadow16", "rat", "skeleton", "skeleton2", "spectre", "boss", "deathknight", 
+            this.spriteNames = ["hand", "sword", "loot", "target", "talk", "sparks", "shadow16", "rat", "ratv2", "skeleton", "skeleton2", "spectre", "boss", "deathknight", 
                                 "ogre", "crab", "snake", "eye", "bat", "goblin", "wizard", "guard", "king", "villagegirl", "villager", "coder", "agent", "rick", "scientist", "nyan", "priest", 
                                 "sorcerer", "octocat", "beachnpc", "forestnpc", "desertnpc", "lavanpc", "clotharmor", "leatherarmor", "mailarmor", 
                                 "platearmor", "redarmor", "goldenarmor", "firefox", "death", "sword1", "axe", "chest",
@@ -1183,7 +1183,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                                         }
 
                                         entity.isDying = true;
-                                        entity.setSprite(self.sprites[entity instanceof Mobs.Rat ? "rat" : "death"]);
+                                        entity.setSprite(self.sprites[entity instanceof Mobs.Rat ? "rat" : (entity instanceof Mobs.Ratv2 ? "ratv2" : "death")]);
                                         entity.animate("death", 120, 1, function() {
                                             log.info(entity.id + " was removed");
 

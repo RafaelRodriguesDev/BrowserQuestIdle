@@ -12,6 +12,16 @@ define(['mob', 'timer'], function(Mob, Timer) {
             }
         }),
 
+        Ratv2: Mob.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.RATV2);
+                this.moveSpeed = 350;
+                this.idleSpeed = 700;
+                this.shadowOffsetY = -2;
+                this.isAggressive = false;
+            }
+        }),
+
         Skeleton: Mob.extend({
             init: function(id) {
                 this._super(id, Types.Entities.SKELETON);
