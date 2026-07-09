@@ -11,11 +11,12 @@ focus: quality
 
 - `npm run vendor:check`: verifies vendored browser library files and key API/version markers under `client/js/lib/`.
 - `npm run smoke:server`: starts `server/js/main.js`, waits for `/status`, and asserts a JSON array.
+- `npm run smoke:health`: starts `server/js/main.js`, waits for `/health`, and asserts readiness JSON.
 - `npm run smoke:websocket`: starts the server, connects with `ws`, receives `go`, sends `HELLO`, and asserts `WELCOME`.
 - `npm run smoke:browser`: starts the server and static root server, opens `/client/` with Playwright, creates a character, verifies one player, and clicks the map.
 - `npm run build:client`: regenerates ignored `client-build/` output with the legacy RequireJS optimizer.
 - `npm run smoke:browser:build`: builds `client-build/`, serves it with Playwright, creates a character, verifies one player, and clicks the map.
-- `npm run smoke`: runs all smoke checks in sequence.
+- `npm run smoke`: runs server, WebSocket, and browser smoke checks in sequence.
 - `npm run smoke:all`: runs the runtime smoke suite plus the optimized build browser smoke.
 
 There is still no CI configuration in the current repository snapshot.
@@ -29,7 +30,8 @@ The manual verification path remains:
 3. Open `http://localhost:9090/client/`.
 4. Enter a player name.
 5. Confirm `GET http://localhost:8000/status` returns one player in a world.
-6. Click the map and verify character movement.
+6. Confirm `GET http://localhost:8000/health` returns `{ "status": "ok", ... }`.
+7. Click the map and verify character movement.
 
 This path is now covered by `npm run smoke:browser`; the optimized `client-build/` equivalent is covered by `npm run smoke:browser:build`.
 
@@ -77,4 +79,4 @@ Dependency updates can break the app at module-load time before gameplay starts.
 The most likely breakages are RequireJS module resolution, implicit globals, and WebSocket protocol assumptions.
 Any update plan should add smoke tests before replacing vendored browser libraries.
 For `client/js/lib/` specifically, `npm run vendor:check` is a fast contract gate, but it is not sufficient by itself; accepted changes still need `npm run smoke:all`.
-Phase 3 final validation uses `npm install`, `npm run vendor:check`, `npm run smoke`, and `npm run smoke:browser:build`.
+Phase 4 final validation uses `npm install`, `npm run vendor:check`, `npm run smoke`, `npm run smoke:browser:build`, and `npm run smoke:health`.

@@ -13,11 +13,11 @@ focus: concerns
 The local path avoids this because `metrics_enabled` is false.
 If metrics are enabled without adding a maintained memcache client, runtime now fails with an explicit error.
 
-### Public production build deployment is not fully validated
+### Public production proxy deployment is not fully validated
 
 `client/js/build.js` sets `prodHost: true`.
-`client/js/game.js` now reads `config_build.dispatcher`, and the local optimized `client-build/` path is validated against the direct server with `dispatcher: false`.
-Public deployment still needs separate validation for HTTPS/WSS, proxy behavior, and any dispatcher endpoint using `{status, host, port}`.
+`client/js/game.js` now reads `config_build.dispatcher`, `config_build.protocol`, and the local optimized `client-build/` path is validated against the direct server with `dispatcher: false`.
+The code can be configured for `wss`, but public deployment still needs separate validation with a real HTTPS reverse proxy and any dispatcher endpoint using `{status, host, port}`.
 
 ### Vendored client dependencies are old and untracked by npm
 
@@ -28,10 +28,10 @@ All vendored browser libraries are currently frozen with rationale; replacing `r
 
 ## Medium Priority
 
-### WebSocket URL is fixed to `ws://`
+### WebSocket protocol depends on config correctness
 
-`client/js/gameclient.js` constructs `ws://host:port/`.
-This blocks secure public HTTPS deployments unless the client is changed to support `wss://` or derive the protocol.
+`client/js/gameclient.js` now constructs the URL from configured `protocol`, `host`, and `port`.
+Invalid or missing protocol falls back to `ws`; production configs must explicitly use `wss` or a documented `auto` mode when TLS is required.
 
 ### Global variable coupling
 
@@ -66,7 +66,7 @@ Python scripts and shell scripts may need Windows-specific validation.
 
 - Player names and chat are sanitized in `server/js/utils.js`.
 - No auth means no account-level security boundary.
-- `/status` is public on the Node listener.
+- `/status` and `/health` are public on the configured Node listener; private production should bind Node to loopback/private interfaces behind a proxy.
 - Server trusts client movement after checking `server.isValidPosition`, but broader anti-cheat is out of scope for local play.
 
 ## Recommended Update Order

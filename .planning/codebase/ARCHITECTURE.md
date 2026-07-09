@@ -15,14 +15,15 @@ The browser client owns rendering, input, pathfinding intent, local UI state, au
 
 1. `server/js/main.js` reads `server/config.json`.
 2. It optionally reads `server/config_local.json` or a custom path from `process.argv[2]`.
-3. It creates `new ws.MultiVersionWebsocketServer(config.port)`.
+3. It creates `new ws.MultiVersionWebsocketServer(config.port, config.host || "127.0.0.1")`.
 4. It creates `nb_worlds` `WorldServer` instances from `server/js/worldserver.js`.
 5. Each world loads `server/maps/world_server.json`.
 6. `/status` returns player counts per world.
+7. `/health` returns process readiness JSON for supervisor/proxy checks.
 
 ## Server Module Boundaries
 
-- `server/js/ws.js`: WebSocket and `/status` HTTP wrapper.
+- `server/js/ws.js`: WebSocket, `/status`, and `/health` HTTP wrapper.
 - `server/js/worldserver.js`: central game orchestration for worlds, groups, queues, spawn/despawn, combat broadcasting, population.
 - `server/js/player.js`: protocol handling for a single player connection.
 - `server/js/message.js`: serializable message objects sent to clients.
@@ -38,7 +39,7 @@ The browser client owns rendering, input, pathfinding intent, local UI state, au
 3. `client/js/home.js` loads `client/js/main.js`.
 4. `client/js/main.js` creates `App` and later `Game`.
 5. `client/js/game.js` loads the map, sprites, audio, pathfinder, and WebSocket client.
-6. `client/js/gameclient.js` connects to the Node server and performs the handshake.
+6. `client/js/gameclient.js` builds a configured `ws`/`wss` URL, connects to the Node server, and performs the handshake.
 
 ## Client Module Boundaries
 
@@ -85,6 +86,13 @@ This matters for dependency updates because newer modules and stricter bundling 
 ## Current Verified Local Path
 
 - Server: `node server/js/main.js`.
+- Server bind: `127.0.0.1:8000` by default.
 - Client static server: repository root, URL `/client/`.
 - Browser verified entering as `CodexTester`, player count `1`, map render, movement target and player movement.
 
+## Private Production Shape
+
+- Browser WebSocket protocol is configured through client config as `ws`, `wss`, or `auto`.
+- Node should bind to loopback or a private interface.
+- A reverse proxy owns HTTPS termination and WebSocket upgrade forwarding.
+- `/health` is the readiness endpoint; `/status` remains population monitoring.

@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-07-09)
 
 **Core value:** O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base tecnica e modernizada.
-**Current focus:** Phase 4 - Preparacao para producao privada
+**Current focus:** Phase 5 - Base para features BrowserQuestIdle
 
 ## Current Status
 
 - Branch: `feature/refactor_1_0_browserQuestIdle`
 - Last codebase map: `.planning/codebase/`
-- Current workflow: `$gsd-plan-phase` Phase 4 complete
-- Status: Phase 4 planned and ready for execution
+- Current workflow: `$gsd-execute-phase` Phase 4 complete
+- Status: Phase 4 implemented and ready for Phase 5 planning
 
 ## Completed
 
@@ -67,20 +67,32 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
   - `04-01-websocket-endpoint-config-and-smoke`
   - `04-02-proxy-runtime-health-and-ops`
   - `04-03-docs-final-validation`
+- Phase 4 implementation added:
+  - Configurable client WebSocket protocol (`ws`, `wss`, `auto`)
+  - Server private bind host config
+  - `/health` readiness endpoint and `npm run smoke:health`
+  - Private production proxy/supervisor/logging runbook docs
+- Phase 4 verified with:
+  - `npm install`
+  - `npm run vendor:check`
+  - `npm run smoke`
+  - `npm run smoke:browser:build`
+  - `npm run smoke:health`
 
 ## Pending
 
 - Push branch when requested.
-- Execute Phase 4.
+- Plan Phase 5.
 
 ## Notes
 
 - `gsd-sdk` is not available in PATH, so GSD artifacts were produced manually following the skill workflows.
 - `browserquest-local-test.png` is local evidence and intentionally not committed.
 - `client-build/` is validated locally against the direct server, but public deployment/WSS/dispatcher behavior remains unvalidated.
+- Client now supports configured `wss`, but real public TLS/proxy validation remains unrun.
 - Vendored browser runtime files under `client/js/lib/` remain intentionally unchanged and frozen with rationale.
 - `require-jquery.js` remains frozen unless a dedicated loader/jQuery migration is created.
-- Phase 4 plans intentionally avoid claiming real public TLS/proxy validation; they prepare configurable private production operation and document remaining limitations.
+- `client/img/v2/` is untracked local content and was not committed during Phase 4.
 
 ---
-*Last updated: 2026-07-09 after Phase 4 planning*
+*Last updated: 2026-07-09 after Phase 4 execution*

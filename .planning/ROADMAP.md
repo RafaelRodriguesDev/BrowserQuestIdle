@@ -116,7 +116,7 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 - Preserve WebSocket message protocol and dispatcher reply compatibility.
 - Keep generated build output and local config files uncommitted.
 
-**Status:** Planned - 2026-07-09
+**Status:** Complete - 2026-07-09
 
 ### Phase 5: Base para features BrowserQuestIdle
 
@@ -131,4 +131,4 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 **Status:** Pending
 
 ---
-*Last updated: 2026-07-09 after Phase 4 planning*
+*Last updated: 2026-07-09 after Phase 4 execution*
