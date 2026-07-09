@@ -41,11 +41,13 @@ Production Build
 
 The optimized legacy build path creates `client-build/` and is validated locally against the direct game server.
 
-Configure the websocket host/port:
+Configure the websocket endpoint:
 
 1. Copy `client/config/config_build.json-dist` to `client/config/config_build.json`.
-2. Edit host/port settings for the target server.
+2. Edit host, port, and protocol settings for the target server.
 3. Keep `"dispatcher": false` for the current direct BrowserQuest game server.
+
+Use `"protocol": "ws"` for local direct traffic, `"protocol": "wss"` when the browser connects through a TLS-terminating proxy, or `"protocol": "auto"` to derive `wss` from an HTTPS page and `ws` otherwise.
 
 Use `"dispatcher": true` only when deploying behind a BrowserQuest dispatcher endpoint that returns `{status, host, port}`.
 
@@ -65,4 +67,4 @@ The legacy Unix entrypoint is still available as `bin/build.sh`; it delegates to
 
 The build uses the vendored RequireJS optimizer to create `client-build/` and writes a root `build.txt` log. Both files are ignored by Git and should be regenerated locally.
 
-Important: public production deployment still needs separate validation for HTTPS/WSS, proxy behavior, and any dispatcher-specific setup.
+Important: private production can now be configured for `wss`, but public deployment still needs separate validation with the real HTTPS proxy and any dispatcher-specific setup.

@@ -2,10 +2,11 @@
 define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory, BISON) {
 
     var GameClient = Class.extend({
-        init: function(host, port) {
+        init: function(host, port, protocol) {
             this.connection = null;
             this.host = host;
             this.port = port;
+            this.protocol = protocol || "ws";
     
             this.connected_callback = null;
             this.spawn_callback = null;
@@ -44,8 +45,22 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
             this.isListening = false;
         },
         
+        normalizeProtocol: function(protocol) {
+            if(protocol === "wss" || protocol === "ws") {
+                return protocol;
+            }
+            if(protocol === "auto") {
+                return window.location.protocol === "https:" ? "wss" : "ws";
+            }
+            return "ws";
+        },
+
+        buildWebSocketUrl: function() {
+            return this.normalizeProtocol(this.protocol) + "://" + this.host + ":" + this.port + "/";
+        },
+        
         connect: function(dispatcherMode) {
-            var url = "ws://"+ this.host +":"+ this.port +"/",
+            var url = this.buildWebSocketUrl(),
                 self = this;
             
             log.info("Trying to connect to server : "+url);

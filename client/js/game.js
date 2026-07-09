@@ -609,10 +609,11 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             }
         },
     
-        setServerOptions: function(host, port, username) {
+        setServerOptions: function(host, port, username, protocol) {
             this.host = host;
             this.port = port;
             this.username = username;
+            this.protocol = protocol;
         },
     
         loadAudio: function() {
@@ -714,7 +715,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             var self = this,
                 connecting = false;
     
-            this.client = new GameClient(this.host, this.port);
+            this.client = new GameClient(this.host, this.port, this.protocol);
             
             //>>excludeStart("prodHost", pragmas.prodHost);
             var config = this.app.config.local || this.app.config.dev;
@@ -735,6 +736,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 
                 self.client.host = host;
                 self.client.port = port;
+                self.client.protocol = self.protocol;
                 self.client.connect(); // connect to actual game server
             });
             
