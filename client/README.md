@@ -21,6 +21,21 @@ http://localhost:9090/client/
 Do not run the static server from inside `client/`; the browser loads `../shared/js/gametypes.js`.
 
 
+Vendored Libraries
+------------------
+
+Browser runtime libraries live in `client/js/lib/`. They are separate from npm dependencies and are not updated by `npm update`.
+
+Before accepting any change under `client/js/lib/`, run:
+
+```powershell
+npm run vendor:check
+npm run smoke:all
+```
+
+The current Phase 3 decision is to freeze the existing RequireJS/jQuery, Modernizr, Class, Underscore, BISON, AStar, stacktrace, log, and IE media-query polyfill contracts. Rationale and future unlock conditions are documented in `client/js/lib/README.md`.
+
+
 Production Build
 ----------------
 

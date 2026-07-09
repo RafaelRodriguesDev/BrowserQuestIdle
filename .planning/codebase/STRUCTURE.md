@@ -39,7 +39,7 @@ focus: arch
 - `client/css/main.css`, `client/css/achievements.css`, `client/css/ie.css`: styles.
 - `client/js/home.js`, `client/js/main.js`, `client/js/app.js`, `client/js/game.js`: top-level client flow.
 - `client/js/gameclient.js`: WebSocket protocol client.
-- `client/js/lib/`: vendored browser libraries.
+- `client/js/lib/`: vendored browser libraries plus `README.md` freeze/probe registry.
 - `client/maps/`: client runtime map data.
 - `client/sprites/`: sprite metadata JSON.
 - `client/img/`: scale-specific sprite sheets and tiles.
@@ -56,6 +56,7 @@ focus: arch
 
 - `scripts/build-client.js`: cross-platform optimized client build command.
 - `scripts/smoke-browser-build.js`: Playwright smoke for optimized `client-build/`.
+- `scripts/check-vendored-libs.js`: fast vendored browser library contract check.
 - `bin/build.sh`: Unix wrapper for optimized client build.
 - `bin/r.js`: vendored RequireJS optimizer, patched for Node 24 compatibility.
 - `client/js/build.js`: optimizer config.

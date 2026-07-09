@@ -23,7 +23,8 @@ Public deployment still needs separate validation for HTTPS/WSS, proxy behavior,
 
 Important libraries live under `client/js/lib/`.
 Updating npm dependencies does not update the browser runtime.
-Replacing `require-jquery.js`, old jQuery, old RequireJS, Modernizr, or Underscore can break AMD loading and globals.
+Phase 3 added `client/js/lib/README.md` and `npm run vendor:check` to make this surface explicit.
+All vendored browser libraries are currently frozen with rationale; replacing `require-jquery.js`, old jQuery, old RequireJS, Modernizr, or Underscore can break AMD loading and globals.
 
 ## Medium Priority
 
@@ -72,5 +73,5 @@ Python scripts and shell scripts may need Windows-specific validation.
 
 1. Stabilize clean install: declare or remove every runtime import (`log`, `memcache`).
 2. Keep `/client/` and `client-build/` smoke checks green while changing browser code.
-3. Freeze or explicitly document vendored browser libraries before replacing them.
+3. Keep `npm run vendor:check` green for every vendored-library change.
 4. Only then attempt optional modernization of RequireJS/jQuery/Modernizr/build tooling.

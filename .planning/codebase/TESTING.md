@@ -77,3 +77,4 @@ Dependency updates can break the app at module-load time before gameplay starts.
 The most likely breakages are RequireJS module resolution, implicit globals, and WebSocket protocol assumptions.
 Any update plan should add smoke tests before replacing vendored browser libraries.
 For `client/js/lib/` specifically, `npm run vendor:check` is a fast contract gate, but it is not sufficient by itself; accepted changes still need `npm run smoke:all`.
+Phase 3 final validation uses `npm install`, `npm run vendor:check`, `npm run smoke`, and `npm run smoke:browser:build`.

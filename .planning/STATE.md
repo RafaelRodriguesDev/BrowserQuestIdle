@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-07-09)
 
 **Core value:** O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base tecnica e modernizada.
-**Current focus:** Phase 3 - Modernizacao controlada de bibliotecas vendorizadas
+**Current focus:** Phase 4 - Preparacao para producao privada
 
 ## Current Status
 
 - Branch: `feature/refactor_1_0_browserQuestIdle`
 - Last codebase map: `.planning/codebase/`
-- Current workflow: `$gsd-plan-phase` Phase 3 complete
-- Status: Phase 3 planned and ready for execution
+- Current workflow: `$gsd-execute-phase` Phase 3 complete
+- Status: Phase 3 implemented and ready for Phase 4 planning
 
 ## Completed
 
@@ -53,20 +53,30 @@ See: `.planning/PROJECT.md` (updated 2026-07-09)
   - `03-01-vendored-library-contract-and-registry`
   - `03-02-controlled-library-probes`
   - `03-03-final-docs-and-validation`
+- Phase 3 implementation added:
+  - `npm run vendor:check`
+  - `client/js/lib/README.md` vendored-library registry
+  - Frozen decisions for all vendored browser libraries under `client/js/lib/`
+- Phase 3 verified with:
+  - `npm install`
+  - `npm run vendor:check`
+  - `npm run smoke`
+  - `npm run smoke:browser:build`
+  - `git status --short --ignored client-build build.txt client/config/config_build.json`
 
 ## Pending
 
 - Push branch when requested.
-- Execute Phase 3.
+- Plan Phase 4.
 
 ## Notes
 
 - `gsd-sdk` is not available in PATH, so GSD artifacts were produced manually following the skill workflows.
 - `browserquest-local-test.png` is local evidence and intentionally not committed.
 - `client-build/` is validated locally against the direct server, but public deployment/WSS/dispatcher behavior remains unvalidated.
-- Vendored browser libraries under `client/js/lib/` remain intentionally unchanged.
-- Phase 3 plan intentionally freezes high-risk `require-jquery.js` unless a dedicated loader/jQuery migration is created.
-- `vendor:check` does not exist yet; it is introduced by plan `03-01`.
+- Vendored browser runtime files under `client/js/lib/` remain intentionally unchanged and frozen with rationale.
+- `require-jquery.js` remains frozen unless a dedicated loader/jQuery migration is created.
+- Phase 4 should focus on private production prep: WSS/proxy/dispatcher and process operations.
 
 ---
-*Last updated: 2026-07-09 after Phase 3 planning*
+*Last updated: 2026-07-09 after Phase 3 execution*

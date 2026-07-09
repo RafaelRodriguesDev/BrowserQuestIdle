@@ -39,6 +39,12 @@ Do not serve the `client/` directory directly. The client loads shared files fro
 Smoke Checks
 ------------
 
+Verify vendored browser library contracts:
+
+```powershell
+npm run vendor:check
+```
+
 Run the full local smoke suite:
 
 ```powershell
@@ -54,6 +60,8 @@ npm run smoke:browser
 ```
 
 The smoke suite verifies `/status`, the BrowserQuest WebSocket `HELLO`/`WELCOME` handshake, and browser gameplay entry at `/client/` with a movement click.
+
+Vendored browser libraries in `client/js/lib/` are not updated by npm. Any change there must pass `npm run vendor:check` and `npm run smoke:all`.
 
 
 Client Build
@@ -81,6 +89,7 @@ Documentation
 -------------
 
 Additional notes are in `client/README.md` and `server/README.md`.
+Vendored browser library decisions are tracked in `client/js/lib/README.md`.
 
 
 License
