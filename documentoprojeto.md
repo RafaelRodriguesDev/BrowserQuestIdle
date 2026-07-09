@@ -61,14 +61,16 @@ Para aplicar a nova versão sem quebrar nada do código original e mantê-lo coe
 
 ## 4. Alinhamento de Sombra e Proporções
 
-Por padrão, a textura V2 desenhada possui dimensões físicas de frame de 81x81 pixels, consideravelmente maiores que os 48x48 originais. Como as spritesheets contêm espaços em branco (margem/padding) ao redor do desenho do rato, a sombra do chão acabava ficando desalinhada (no canto superior esquerdo).
+Por padrão, a textura V2 original desenhada possuía dimensões físicas de frame de 81x81 pixels, consideravelmente maiores que os 48x48 originais. Isso tornava o rato muito gigante em relação ao ambiente do jogo.
 
-Para alinhar visualmente a sombra exatamente embaixo do centro do corpo do Rato V2, adicionamos as seguintes chaves de deslocamento no `client/sprites/ratv2.json`:
+Para resolver isso, realizamos os seguintes ajustes de escala e alinhamento:
+1. **Redução da Imagem Base (50%):** Criamos o script `scripts/resize_source.py` para redimensionar a imagem transparente do rato pela metade (50%), resultando em dimensões finais de frame base de **40x40** no JSON do monstro (`ratv2.json`), o que encaixou o rato perfeitamente nas proporções do ambiente.
+2. **Ajuste de Offsets para a Sombra:** Como as spritesheets ainda possuem espaços vazios ao redor do desenho do rato dentro da caixa de 40x40, a sombra do chão acabava ficando desalinhada. Adicionamos as seguintes chaves de deslocamento no `client/sprites/ratv2.json`:
 ```json
-    "offset_x": -34,
-    "offset_y": -45
+    "offset_x": -13,
+    "offset_y": -14
 ```
-Isso faz com que o motor gráfico desloque a renderização do sprite nas coordenadas exatas para centralizá-lo com a posição real de colisão e sombra do monstro.
+Isso faz com que o motor gráfico desloque a renderização do sprite nas coordenadas exatas, mantendo a sombra exatamente embaixo do centro do corpo do Rato V2.
 
 ---
 
