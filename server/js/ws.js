@@ -12,8 +12,9 @@ module.exports = WS;
 
 
 var Server = cls.Class.extend({
-    init: function(port) {
+    init: function(port, host) {
         this.port = port;
+        this.host = host || "127.0.0.1";
     },
 
     onConnect: function(callback) {
@@ -84,10 +85,10 @@ WS.MultiVersionWebsocketServer = Server.extend({
     _connections: {},
     _counter: 0,
 
-    init: function(port) {
+    init: function(port, host) {
         var self = this;
 
-        this._super(port);
+        this._super(port, host);
 
         this._httpServer = http.createServer(function(request, response) {
             var path = url.parse(request.url).pathname;
@@ -96,6 +97,12 @@ WS.MultiVersionWebsocketServer = Server.extend({
                     if(self.status_callback) {
                         response.writeHead(200, { 'Content-Type': 'application/json' });
                         response.write(self.status_callback());
+                        break;
+                    }
+                case '/health':
+                    if(self.health_callback) {
+                        response.writeHead(200, { 'Content-Type': 'application/json' });
+                        response.write(self.health_callback());
                         break;
                     }
                 default:
@@ -123,8 +130,8 @@ WS.MultiVersionWebsocketServer = Server.extend({
             }
         });
 
-        this._httpServer.listen(port, function() {
-            log.info("Server is listening on port "+port);
+        this._httpServer.listen(port, this.host, function() {
+            log.info("Server is listening on "+self.host+":"+port);
         });
     },
 
@@ -140,6 +147,10 @@ WS.MultiVersionWebsocketServer = Server.extend({
 
     onRequestStatus: function(status_callback) {
         this.status_callback = status_callback;
+    },
+
+    onRequestHealth: function(health_callback) {
+        this.health_callback = health_callback;
     }
 });
 

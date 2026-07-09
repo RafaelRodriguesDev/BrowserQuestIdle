@@ -13,7 +13,7 @@ function main(config) {
     var ws = require("./ws"),
         WorldServer = require("./worldserver"),
         _ = require('underscore'),
-        server = new ws.MultiVersionWebsocketServer(config.port),
+        server = new ws.MultiVersionWebsocketServer(config.port, config.host || "127.0.0.1"),
         metrics = null,
         worlds = [],
         lastTotalPlayers = 0,
@@ -99,6 +99,14 @@ function main(config) {
     
     server.onRequestStatus(function() {
         return JSON.stringify(getWorldDistribution(worlds));
+    });
+
+    server.onRequestHealth(function() {
+        return JSON.stringify({
+            status: "ok",
+            uptime: process.uptime(),
+            worlds: worlds.length
+        });
     });
     
     if(config.metrics_enabled) {

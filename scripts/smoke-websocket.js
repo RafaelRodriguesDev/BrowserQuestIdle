@@ -1,8 +1,8 @@
 const WebSocket = require("ws");
 const Types = require("../shared/js/gametypes");
-const { startServer, stopServer, waitForStatus } = require("./smoke-server");
+const { startServer, stopServer, waitForStatus, SERVER_HOST, SERVER_PORT } = require("./smoke-server");
 
-const WS_URL = "ws://127.0.0.1:8000/";
+const WS_URL = `ws://${SERVER_HOST}:${SERVER_PORT}/`;
 
 function waitForMessage(socket, predicate, timeoutMs, label) {
     return new Promise((resolve, reject) => {

@@ -55,11 +55,12 @@ Individual checks:
 
 ```powershell
 npm run smoke:server
+npm run smoke:health
 npm run smoke:websocket
 npm run smoke:browser
 ```
 
-The smoke suite verifies `/status`, the BrowserQuest WebSocket `HELLO`/`WELCOME` handshake, and browser gameplay entry at `/client/` with a movement click.
+The smoke suite verifies `/status`, `/health`, the BrowserQuest WebSocket `HELLO`/`WELCOME` handshake, and browser gameplay entry at `/client/` with a movement click.
 
 Vendored browser libraries in `client/js/lib/` are not updated by npm. Any change there must pass `npm run vendor:check` and `npm run smoke:all`.
 
@@ -83,6 +84,36 @@ npm run smoke:all
 ```
 
 Generated build output and local config files are not committed.
+
+
+Private Production
+------------------
+
+Private production is configuration-ready but not validated against a real public TLS proxy in this repository.
+
+The browser WebSocket endpoint is configured through `client/config/config_build.json`:
+
+```json
+{
+    "host": "game.example.internal",
+    "port": 443,
+    "protocol": "wss",
+    "dispatcher": false
+}
+```
+
+Use `"protocol": "ws"` for local/private plaintext traffic, `"protocol": "wss"` when the browser connects through a TLS-terminating proxy, or `"protocol": "auto"` when the static site and WebSocket endpoint share the page protocol.
+
+The Node game server should bind to loopback or a private interface in `server/config_local.json`:
+
+```json
+{
+    "host": "127.0.0.1",
+    "port": 8000
+}
+```
+
+A reverse proxy owns HTTPS termination and WebSocket upgrade forwarding to that private listener. Supervisors should run `node server/js/main.js`, capture stdout/stderr, restart the process on failure, and use `npm run smoke:health` or `GET http://127.0.0.1:8000/health` as the readiness check.
 
 
 Documentation

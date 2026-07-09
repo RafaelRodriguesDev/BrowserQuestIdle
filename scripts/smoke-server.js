@@ -1,34 +1,47 @@
 const { spawn } = require("child_process");
 const http = require("http");
 
-const SERVER_URL = "http://127.0.0.1:8000/status";
+const SERVER_HOST = "127.0.0.1";
+const SERVER_PORT = 8000;
+const STATUS_URL = `http://${SERVER_HOST}:${SERVER_PORT}/status`;
+const HEALTH_URL = `http://${SERVER_HOST}:${SERVER_PORT}/health`;
 
-function requestStatus() {
+function requestJson(url, validate, label) {
     return new Promise((resolve, reject) => {
-        const req = http.get(SERVER_URL, (res) => {
+        const req = http.get(url, (res) => {
             let body = "";
             res.setEncoding("utf8");
             res.on("data", (chunk) => body += chunk);
             res.on("end", () => {
                 if(res.statusCode !== 200) {
-                    reject(new Error(`/status returned ${res.statusCode}: ${body}`));
+                    reject(new Error(`${label} returned ${res.statusCode}: ${body}`));
                     return;
                 }
                 try {
                     const parsed = JSON.parse(body);
-                    if(!Array.isArray(parsed)) {
-                        reject(new Error(`/status did not return an array: ${body}`));
+                    if(!validate(parsed)) {
+                        reject(new Error(`${label} returned unexpected JSON: ${body}`));
                         return;
                     }
                     resolve(parsed);
                 } catch(error) {
-                    reject(new Error(`/status returned invalid JSON: ${body}`));
+                    reject(new Error(`${label} returned invalid JSON: ${body}`));
                 }
             });
         });
         req.on("error", reject);
-        req.setTimeout(1000, () => req.destroy(new Error("Timed out waiting for /status")));
+        req.setTimeout(1000, () => req.destroy(new Error(`Timed out waiting for ${label}`)));
     });
+}
+
+function requestStatus() {
+    return requestJson(STATUS_URL, Array.isArray, "/status");
+}
+
+function requestHealth() {
+    return requestJson(HEALTH_URL, (parsed) => {
+        return parsed && parsed.status === "ok" && typeof parsed.uptime === "number" && typeof parsed.worlds === "number";
+    }, "/health");
 }
 
 async function waitForStatus(timeoutMs) {
@@ -45,6 +58,22 @@ async function waitForStatus(timeoutMs) {
     }
 
     throw lastError || new Error("Server did not become ready");
+}
+
+async function waitForHealth(timeoutMs) {
+    const deadline = Date.now() + timeoutMs;
+    let lastError;
+
+    while(Date.now() < deadline) {
+        try {
+            return await requestHealth();
+        } catch(error) {
+            lastError = error;
+            await new Promise((resolve) => setTimeout(resolve, 250));
+        }
+    }
+
+    throw lastError || new Error("Server health did not become ready");
 }
 
 function startServer() {
@@ -69,12 +98,14 @@ function stopServer(child) {
 
 async function main() {
     const server = startServer();
+    const check = process.argv[2] === "--health" ? waitForHealth : waitForStatus;
+    const label = process.argv[2] === "--health" ? "smoke:health" : "smoke:server";
 
     try {
-        const status = await waitForStatus(10000);
-        console.log(`smoke:server ok ${JSON.stringify(status)}`);
+        const status = await check(10000);
+        console.log(`${label} ok ${JSON.stringify(status)}`);
     } catch(error) {
-        console.error(`smoke:server failed: ${error.message}`);
+        console.error(`${label} failed: ${error.message}`);
         const output = server.output();
         if(output) {
             console.error(output);
@@ -91,7 +122,11 @@ if(require.main === module) {
 
 module.exports = {
     requestStatus,
+    requestHealth,
     waitForStatus,
+    waitForHealth,
     startServer,
-    stopServer
+    stopServer,
+    SERVER_HOST,
+    SERVER_PORT
 };
