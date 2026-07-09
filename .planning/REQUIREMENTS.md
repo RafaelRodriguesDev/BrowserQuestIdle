@@ -7,30 +7,30 @@
 
 ### Runtime
 
-- [ ] **RUN-01**: Desenvolvedor consegue executar `npm install` em ambiente limpo sem depender de pacotes extraneous.
-- [ ] **RUN-02**: Desenvolvedor consegue iniciar o servidor com `node server/js/main.js`.
-- [ ] **RUN-03**: Servidor responde `GET /status` com JSON contendo a populacao dos mundos.
-- [ ] **RUN-04**: Imports residuais de pacotes removidos sao resolvidos ou documentados como ferramentas fora do fluxo principal.
+- [x] **RUN-01**: Desenvolvedor consegue executar `npm install` em ambiente limpo sem depender de pacotes extraneous.
+- [x] **RUN-02**: Desenvolvedor consegue iniciar o servidor com `node server/js/main.js`.
+- [x] **RUN-03**: Servidor responde `GET /status` com JSON contendo a populacao dos mundos.
+- [x] **RUN-04**: Imports residuais de pacotes removidos sao resolvidos ou documentados como ferramentas fora do fluxo principal.
 
 ### Browser
 
-- [ ] **BRW-01**: Desenvolvedor consegue servir a raiz do repositorio e abrir `http://localhost:9090/client/`.
-- [ ] **BRW-02**: Cliente carrega mapa, sprites e UI sem erro bloqueante no console.
-- [ ] **BRW-03**: Jogador consegue informar nome, conectar via WebSocket e receber `WELCOME`.
-- [ ] **BRW-04**: Jogador consegue mover no mapa por clique apos entrar no mundo.
+- [x] **BRW-01**: Desenvolvedor consegue servir a raiz do repositorio e abrir `http://localhost:9090/client/`.
+- [x] **BRW-02**: Cliente carrega mapa, sprites e UI sem erro bloqueante no console.
+- [x] **BRW-03**: Jogador consegue informar nome, conectar via WebSocket e receber `WELCOME`.
+- [x] **BRW-04**: Jogador consegue mover no mapa por clique apos entrar no mundo.
 
 ### Dependencies
 
-- [ ] **DEP-01**: Dependencias npm diretas estao fixadas em ranges ou versoes coerentes com o lockfile.
-- [ ] **DEP-02**: Bibliotecas vendorizadas do cliente estao inventariadas e classificadas por risco antes de substituicao.
-- [ ] **DEP-03**: `log` e `memcache` residuais nao quebram o fluxo local validado.
-- [ ] **DEP-04**: O plano diferencia runtime local validado, build legado e ferramentas de mapa.
+- [x] **DEP-01**: Dependencias npm diretas estao fixadas em ranges ou versoes coerentes com o lockfile.
+- [x] **DEP-02**: Bibliotecas vendorizadas do cliente estao inventariadas e classificadas por risco antes de substituicao.
+- [x] **DEP-03**: `log` e `memcache` residuais nao quebram o fluxo local validado.
+- [x] **DEP-04**: O plano diferencia runtime local validado, build legado e ferramentas de mapa.
 
 ### Verification
 
-- [ ] **VER-01**: Existe smoke test documentado ou automatizado para `/status`.
-- [ ] **VER-02**: Existe smoke test documentado ou automatizado para handshake WebSocket.
-- [ ] **VER-03**: Existe smoke test documentado ou automatizado para browser entrar e mover personagem.
+- [x] **VER-01**: Existe smoke test documentado ou automatizado para `/status`.
+- [x] **VER-02**: Existe smoke test documentado ou automatizado para handshake WebSocket.
+- [x] **VER-03**: Existe smoke test documentado ou automatizado para browser entrar e mover personagem.
 
 ## v2 Requirements
 
@@ -59,21 +59,21 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| RUN-01 | Phase 1 | Pending |
-| RUN-02 | Phase 1 | Pending |
-| RUN-03 | Phase 1 | Pending |
-| RUN-04 | Phase 1 | Pending |
-| BRW-01 | Phase 1 | Pending |
-| BRW-02 | Phase 1 | Pending |
-| BRW-03 | Phase 1 | Pending |
-| BRW-04 | Phase 1 | Pending |
-| DEP-01 | Phase 1 | Pending |
-| DEP-02 | Phase 1 | Pending |
-| DEP-03 | Phase 1 | Pending |
-| DEP-04 | Phase 1 | Pending |
-| VER-01 | Phase 1 | Pending |
-| VER-02 | Phase 1 | Pending |
-| VER-03 | Phase 1 | Pending |
+| RUN-01 | Phase 1 | Complete |
+| RUN-02 | Phase 1 | Complete |
+| RUN-03 | Phase 1 | Complete |
+| RUN-04 | Phase 1 | Complete |
+| BRW-01 | Phase 1 | Complete |
+| BRW-02 | Phase 1 | Complete |
+| BRW-03 | Phase 1 | Complete |
+| BRW-04 | Phase 1 | Complete |
+| DEP-01 | Phase 1 | Complete |
+| DEP-02 | Phase 1 | Complete |
+| DEP-03 | Phase 1 | Complete |
+| DEP-04 | Phase 1 | Complete |
+| VER-01 | Phase 1 | Complete |
+| VER-02 | Phase 1 | Complete |
+| VER-03 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total
@@ -82,4 +82,4 @@
 
 ---
 *Requirements defined: 2026-07-09*
-*Last updated: 2026-07-09 after project planning bootstrap*
+*Last updated: 2026-07-09 after Phase 1 verification*

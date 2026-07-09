@@ -35,7 +35,7 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 - Preserve local browser gameplay as the primary acceptance gate.
 - Keep protocol message IDs and array message format stable.
 
-**Status:** Planned
+**Status:** Complete - 2026-07-09
 
 ### Phase 2: Build legado e configuracao de ambiente
 
@@ -86,4 +86,4 @@ The roadmap starts with the smallest safe modernization slice: stabilize depende
 **Status:** Pending
 
 ---
-*Last updated: 2026-07-09 after Phase 1 planning*
+*Last updated: 2026-07-09 after Phase 1 execution*

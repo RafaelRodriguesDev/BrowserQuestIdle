@@ -15,14 +15,15 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 - Checked: servidor Node inicia em `server/js/main.js` e expoe `/status`.
 - Checked: cliente abre em `http://localhost:9090/client/` quando a raiz do repositorio e servida.
 - Checked: jogador `CodexTester` entrou no mundo, mapa renderizou e movimento por clique funcionou.
+- Phase 1: `npm install`, `npm ls --depth=0`, `npm audit`, `npm audit --omit=dev`, and `npm run smoke` passed.
+- Phase 1: smoke scripts cover server `/status`, WebSocket `HELLO`/`WELCOME`, and browser `/client/` entry with movement click.
+- Phase 1: root/server/client docs match the verified local run path.
 
 ### Active
 
-- [ ] Estabilizar dependencias npm e imports residuais para que um install limpo nao dependa de pacotes extraneous.
-- [ ] Definir smoke tests minimos para servidor, WebSocket e navegador.
-- [ ] Atualizar documentacao operacional local para o fluxo real de execucao.
-- [ ] Mapear e isolar bibliotecas vendorizadas antes de qualquer troca de RequireJS, jQuery, Modernizr ou build tooling.
+- [ ] Reconciliar `client-build/`, config local/build e dispatcher mode com o servidor atual.
 - [ ] Preservar protocolo atual de mensagens e comportamento de gameplay durante a modernizacao.
+- [ ] Mapear e isolar bibliotecas vendorizadas antes de qualquer troca de RequireJS, jQuery, Modernizr ou build tooling.
 
 ### Out of Scope
 
@@ -52,10 +53,10 @@ O jogo precisa continuar funcionando localmente de ponta a ponta enquanto a base
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Manter BrowserQuest local funcionando antes de modernizar bibliotecas vendorizadas | O jogo quebra facilmente em module loading e globals legados | Pending |
-| Tratar `client/js/lib` como superficie separada de npm | Npm update nao atualiza o runtime browser vendorizado | Pending |
-| Criar smoke tests antes de grandes trocas | Sem testes, regressao so aparece manualmente no navegador | Pending |
-| Nao usar o build `client-build/` como caminho validado inicial | O build usa `prodHost` e dispatcher mode diferente do servidor local | Pending |
+| Manter BrowserQuest local funcionando antes de modernizar bibliotecas vendorizadas | O jogo quebra facilmente em module loading e globals legados | Validated in Phase 1 |
+| Tratar `client/js/lib` como superficie separada de npm | Npm update nao atualiza o runtime browser vendorizado | Validated in Phase 1 |
+| Criar smoke tests antes de grandes trocas | Sem testes, regressao so aparece manualmente no navegador | Implemented in Phase 1 |
+| Nao usar o build `client-build/` como caminho validado inicial | O build usa `prodHost` e dispatcher mode diferente do servidor local | Deferred to Phase 2 |
 
 ## Evolution
 
@@ -75,4 +76,4 @@ After each milestone:
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-07-09 after project planning bootstrap*
+*Last updated: 2026-07-09 after Phase 1 execution*
